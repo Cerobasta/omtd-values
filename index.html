@@ -3,77 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OMTD Unofficial Value List</title>
+    <title>MTD Unofficial Value List</title>
     <style>
         :root {
-        /* Container for Units/Items buttons */
-         .nav-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
-
-         .tab-btn { 
-                background: #21262d; 
-                border: 1px solid #30363d; 
-                color: white; 
-                padding: 12px; 
-                border-radius: 8px; 
-                flex: 1; 
-                cursor: pointer; 
-                font-weight: bold; 
-        }
-
-         .tab-btn.active { background: var(--accent); border-color: var(--accent); }
-
-/* Rarity Filter Chips */
-         .filter-bar { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 20px; }
-
-         .filter-chip { 
-                padding: 8px 14px; 
-                border-radius: 8px; 
-                background: #21262d; 
-                border: 1px solid #30363d; 
-                color: white; 
-                cursor: pointer; 
-                font-size: 0.7rem; 
-                font-weight: bold; 
-                text-transform: uppercase; 
-        }
-
-        .filter-chip.active { border-color: white; background: #30363d; }
-            
-        .empty-msg { 
-            grid-column: 1 / -1; 
-            text-align: center; 
-            padding: 60px 20px; 
-            color: #8b949e; 
-            font-style: italic; 
-            font-size: 0.9rem;
-        }
-            
-        .intro-credits { 
-            background: #1c2128; 
-            border: 1px solid #30363d; 
-            border-radius: 12px; 
-            padding: 12px; 
-            margin: 15px 0; 
-            text-align: center; 
-        }
-
-        .pill { 
-            display: inline-block; 
-            background: #2d333b; 
-            color: var(--accent); 
-            padding: 3px 8px; 
-            border-radius: 15px; 
-            font-size: 0.75rem; 
-            font-weight: 600; 
-            margin: 2px; 
-            border: 1px solid #444c56; 
-        }
-            
-            --bg: #0d1117;
-            --card-bg: #161b22;
-            --text: #c9d1d9;
-            --header-text: #ffffff;
-            --accent: #5865f2;
+            --primary: #0f0f1a;
+            --secondary: #1a1a2e;
+            --accent: #00d4ff;
+            --text: #ffffff;
             --legendary: #00FFFF;
             --mythic: #ff4500;
             --exotic: #90EE90;
@@ -82,859 +18,383 @@
             --hero: #ffA500;
             --exclusive: #E03FD8;
             --evo: #ffffff;
+            --common: #bdc3c7;
+            --rare: #27ae60;
+            --epic: #8e44ad;
+            /* New Shiny Color */
+            --shiny: #ffd700; 
         }
 
         body {
-            background-color: var(--bg);
+            font-family: 'Inter', sans-serif;
+            background-color: var(--primary);
             color: var(--text);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
             margin: 0;
-            padding: 15px;
+            padding: 20px;
+            text-align: center;
         }
 
         header {
-            text-align: center;
-            padding: 30px 0;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: linear-gradient(145deg, #16213e, #1a1a2e);
+            border-radius: 20px;
+            border: 1px solid #333;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        h1 { color: var(--header-text); margin-bottom: 5px; }
-        .subtitle { color: #8b949e; font-size: 0.9rem; margin-bottom: 20px; }
-        <div class="nav-tabs">
-    <button class="tab-btn active" id="unitsTab" onclick="setCategory('units')">Units</button>
-    <button class="tab-btn" id="itemsTab" onclick="setCategory('items')">Items</button>
-</div>
-
-<div class="filter-bar" id="rarityFilters"></div>
-        
-        .search-box {
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #30363d;
-            background: var(--card-bg);
-            color: white;
-            font-size: 16px;
-            margin-bottom: 20px;
-            box-sizing: border-box;
-            outline: none;
+        .credits {
+            font-size: 0.9em;
+            color: #aaa;
+            margin-top: 15px;
+            line-height: 1.6;
         }
 
-        .search-box:focus { border-color: var(--accent); }
+        .credits b { color: var(--accent); }
 
-        .unit-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        .main-nav, .rarity-nav {
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: center;
             gap: 12px;
+            flex-wrap: wrap;
         }
 
-        .unit-card {
-            background: var(--card-bg);
-            border-radius: 8px;
-            padding: 12px;
-            border-top: 4px solid var(--accent);
+        button {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            background: var(--secondary);
+            color: white;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.8em;
+            transition: all 0.3s ease;
+            border: 1px solid #444;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            background: #252545;
+            border-color: var(--accent);
+        }
+
+        button.active {
+            background: var(--accent);
+            color: var(--primary);
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
+        }
+
+        /* Specific style for Shiny Category button when active */
+        #btn-shiny.active {
+            background: var(--shiny);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        #list-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .value-card {
+            background: var(--secondary);
+            padding: 20px;
+            border-radius: 15px;
             display: flex;
             flex-direction: column;
-            transition: transform 0.1s;
+            justify-content: space-between;
+            border-top: 4px solid gray;
+            text-align: left;
+            transition: 0.3s;
         }
 
-        .rarity-label {
-            font-size: 10px;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-            letter-spacing: 0.5px;
+        .value-card:hover { transform: scale(1.02); }
+
+        .rarity-LEGENDARY { border-top-color: var(--legendary); }
+        .rarity-MYTHIC { border-top-color: var(--mythic); }
+        .rarity-EXOTIC { border-top-color: var(--exotic); }
+        .rarity-SECRET { border-top-color: var(--secret); }
+        .rarity-DIVINE { border-top-color: var(--divine); }
+        .rarity-HERO { border-top-color: var(--hero); }
+        .rarity-EXCLUSIVE { border-top-color: var(--exclusive); }
+        .rarity-EVO { border-top-color: var(--evo); }
+        .rarity-COMMON { border-top-color: var(--common); }
+        .rarity-RARE { border-top-color: var(--rare); }
+        .rarity-EPIC { border-top-color: var(--epic); }
+        /* Shiny border color */
+        .rarity-SHINY { border-top-color: var(--shiny); border-top-width: 6px; }
+
+        .item-name { font-size: 1.2em; font-weight: 800; margin-bottom: 5px; }
+        .item-note { color: #888; font-size: 0.85em; margin-bottom: 15px; min-height: 20px;}
+        .value-box { 
+            background: rgba(0, 212, 255, 0.1);
+            padding: 8px;
+            border-radius: 8px;
+            color: var(--accent);
+            font-weight: 800;
+            text-align: center;
         }
 
-        .unit-name {
-            color: var(--header-text);
-            font-weight: 600;
-            font-size: 1rem;
-            margin-bottom: 6px;
+        .rarity-SHINY .value-box {
+            background: rgba(255, 215, 0, 0.1);
+            color: var(--shiny);
         }
 
-        .unit-val {
-            color: #4ade80;
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-
-        .unit-notes {
-            font-size: 0.75rem;
-            color: #8b949e;
-            margin-top: 4px;
-        }
-
-        /* Rarity Borders */
-        .LEGENDARY { border-top-color: var(--legendary); color: var(--legendary); }
-        .MYTHIC { border-top-color: var(--mythic); color: var(--mythic); }
-        .EXOTIC { border-top-color: var(--exotic); color: var(--exotic); }
-        .SECRET { border-top-color: var(--secret); color: var(--secret); }
-        .DIVINE { border-top-color: var(--divine); color: var(--divine); }
-        .HERO { border-top-color: var(--hero); color: var(--hero); }
-        .EXCLUSIVE { border-top-color: var(--exclusive); color: var(--exclusive); }
-        .EVO { border-top-color: var(--evo); color: var(--evo); }
-
+        .hidden { display: none; }
+        
+        .empty-msg { grid-column: 1/-1; padding: 50px; color: #555; }
     </style>
 </head>
 <body>
 
     <header>
-    <h1>OMTD Values</h1>
-    <div class="intro-credits">
-        <div style="font-size: 0.7rem; color: #8b949e; margin-bottom: 8px;">Created and contributed by:</div>
-        <span class="pill">@SayHiLol</span> 
-        <span class="pill">@Cer</span> 
-        <span class="pill">@Affinity</span> 
-        <span class="pill">@Onest</span> 
-        <span class="pill">@Falledsyu</span>
+        <h1>MTD UNOFFICIAL VALUE LIST</h1>
+        <p>Lets larp multiverse tower defense together!</p>
+        <div class="credits">
+            Credits to <b>@SayHiLol, @Onest, @FalledSyu, @Cerobasta</b> for helping me (afterwind) make this.
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-nav">
+            <button onclick="showCategory('units')" id="btn-units" class="active">Clear Units</button>
+            <button onclick="showCategory('shiny')" id="btn-shiny">Shiny Units</button>
+            <button onclick="showCategory('items')" id="btn-items">Items</button>
+        </div>
+
+        <div id="unit-rarities" class="rarity-nav">
+            <button class="r-btn" onclick="filterRarity('LEGENDARY', this)">Legendary</button>
+            <button class="r-btn" onclick="filterRarity('MYTHIC', this)">Mythic</button>
+            <button class="r-btn" onclick="filterRarity('EXOTIC', this)">Exotic</button>
+            <button class="r-btn" onclick="filterRarity('SECRET', this)">Secret</button>
+            <button class="r-btn" onclick="filterRarity('DIVINE', this)">Divine</button>
+            <button class="r-btn" onclick="filterRarity('HERO', this)">Hero</button>
+            <button class="r-btn" onclick="filterRarity('EXCLUSIVE', this)">Exclusive</button>
+            <button class="r-btn" onclick="filterRarity('EVO', this)">Evo/Crafted</button>
+        </div>
+
+        <div id="shiny-rarities" class="rarity-nav hidden">
+            <button class="r-btn" onclick="filterRarity('LEGENDARY', this)">Legendary</button>
+            <button class="r-btn" onclick="filterRarity('MYTHIC', this)">Mythic</button>
+            <button class="r-btn" onclick="filterRarity('EXOTIC', this)">Exotic</button>
+            <button class="r-btn" onclick="filterRarity('SECRET', this)">Secret</button>
+            <button class="r-btn" onclick="filterRarity('DIVINE', this)">Divine</button>
+            <button class="r-btn" onclick="filterRarity('HERO', this)">Hero</button>
+            <button class="r-btn" onclick="filterRarity('EXCLUSIVE', this)">Exclusive</button>
+        </div>
+
+        <div id="item-rarities" class="rarity-nav hidden">
+            <button class="r-btn" onclick="filterRarity('COMMON', this)">Common</button>
+            <button class="r-btn" onclick="filterRarity('RARE', this)">Rare</button>
+            <button class="r-btn" onclick="filterRarity('EPIC', this)">Epic</button>
+            <button class="r-btn" onclick="filterRarity('LEGENDARY', this)">Legendary</button>
+            <button class="r-btn" onclick="filterRarity('MYTHIC', this)">Mythic</button>
+            <button class="r-btn" onclick="filterRarity('EXOTIC', this)">Exotic</button>
+            <button class="r-btn" onclick="filterRarity('SECRET', this)">Secret</button>
+            <button class="r-btn" onclick="filterRarity('EXCLUSIVE', this)">Exclusive</button>
+        </div>
+
+        <div id="list-container"></div>
     </div>
-    <input type="text" id="search" class="search-box" placeholder="Search for a unit..." onkeyup="searchUnits()">
-</header>
-
-
-    <div class="unit-grid" id="grid"></div>
 
     <script>
-        let currentCategory = 'units';
-let activeRarity = null;
+        const data = {
+            units: [
+                { name: "Spinning Cat", rarity: "LEGENDARY", value: "1-10 Gems", note: "-" },
+                { name: "Wazzup Ghostface", rarity: "LEGENDARY", value: "1-10 Gems", note: "UK/MG = TBA" },
+                { name: "Tralalero Tralala", rarity: "LEGENDARY", value: "5-10 Gems", note: "UK = 50 Gems, MG = TBA" },
+                { name: "Bus Puxlya", rarity: "MYTHIC", value: "15-20 Gems", note: "UK/MG = TBA" },
+                { name: "Susie", rarity: "MYTHIC", value: "5-30 Gems", note: "UK/MG = TBA" },
+                { name: "The Man Behind The Slaughter", rarity: "MYTHIC", value: "100 Gems", note: "UK/MG = TBA" },
+                { name: "Papyrus", rarity: "MYTHIC", value: "1-20 Gems", note: "UK/MG = TBA" },
+                { name: "Kissy Missy", rarity: "MYTHIC", value: "20-100 Gems", note: "UK/MG = TBA" },
+                { name: "Ink King", rarity: "MYTHIC", value: "5-10 Gems", note: "UK/MG = TBA" },
+                { name: "Pixel Dino", rarity: "MYTHIC", value: "5-10 Gems", note: "UK/MG = TBA" },
+                { name: "Boneca Ambalabu", rarity: "MYTHIC", value: "50-100 Gems", note: "UK/MG = TBA" },
+                { name: "Speakerman", rarity: "MYTHIC", value: "1000-1500 Gems", note: "UK/MG = TBA" },
+                { name: "Shedletsky", rarity: "MYTHIC", value: "10-20 Gems", note: "UK/MG = TBA" },
+                { name: "Purple Guy", rarity: "EXOTIC", value: "40-150 Gems", note: "UK/MG = TBA" },
+                { name: "Sans", rarity: "EXOTIC", value: "15-30 Gems", note: "UK/MG = TBA" },
+                { name: "Erik Cassel", rarity: "EXOTIC", value: "15-30 Gems", note: "UK/MG = TBA" },
+                { name: "Slenderman", rarity: "EXOTIC", value: "15-30 Gems", note: "UK/MG = TBA" },
+                { name: "Dr. Kleiner", rarity: "EXOTIC", value: "20-30 Gems", note: "UK/MG = TBA" },
+                { name: "Eye of Cthulhu", rarity: "EXOTIC", value: "400-600 Gems", note: "UK/MG = TBA" },
+                { name: "Ink Demon", rarity: "EXOTIC", value: "1000-1200 Gems", note: "UK/MG = TBA" },
+                { name: "67 Brainrot", rarity: "EXOTIC", value: "700-1000 Gems", note: "UK/MG = TBA" },
+                { name: "Multiblade Skibidi", rarity: "EXOTIC", value: "700-1000 Gems", note: "UK/MG = TBA" },
+                { name: "CatNap", rarity: "SECRET", value: "5k-6k", note: "Status: Stable" },
+                { name: "Kuzvelia", rarity: "SECRET", value: "4k-5k", note: "Status: Stable" },
+                { name: "Disco Freddy", rarity: "SECRET", value: "5k-6k", note: "Status: Stable" },
+                { name: "Blackhat", rarity: "SECRET", value: "9k+", note: "Status: Slowly Dropping" },
+                { name: "Eduardo", rarity: "SECRET", value: "N/A", note: "Status: Fluctuating" },
+                { name: "Bendy Statue", rarity: "SECRET", value: "45k-50k+", note: "Status: Slowly Rising" },
+                { name: "Scp-067", rarity: "SECRET", value: "18k", note: "Status: Slowly Rising" },
+                { name: "Rob", rarity: "SECRET", value: "80k-90k", note: "Status: Unstable" },
+                { name: "Bill Cipher", rarity: "DIVINE", value: "6k-8k+ Gems", note: "UK/MG = TBA" },
+                { name: "One", rarity: "DIVINE", value: "20k+ Gems", note: "UK/MG = TBA" },
+                { name: "Chica's Magic Rainbow", rarity: "DIVINE", value: "O/C", note: "TBA" },
+                { name: "D1M3NS10N4L", rarity: "HERO", value: "2k-3k+ Gems", note: "UK/MG = TBA" },
+                { name: "D00MBRINGER", rarity: "HERO", value: "2.5k-3k+ Gems", note: "UK/MG = TBA" },
+                { name: "Ink King Overlord", rarity: "HERO", value: "3k-4k+ Gems", note: "UK/MG = TBA" },
+                { name: "Beast Bendy", rarity: "HERO", value: "3k+ Gems", note: "UK/MG = TBA" },
+                { name: "Titan Cameraman", rarity: "HERO", value: "O/C", note: "TBA" },
+                { name: "Cloudy", rarity: "EXCLUSIVE", value: "35k Gems", note: "O/C" },
+                { name: "Frostbear", rarity: "EXCLUSIVE", value: "3k-3.5k Gems", note: "" },
+                { name: "Wubbox (Ex)", rarity: "EXCLUSIVE", value: "18k Gems", note: "" },
+                { name: "Killstreak Snickers", rarity: "EXCLUSIVE", value: "1k-2k Gems", note: "" },
+                { name: "Vicious Bee", rarity: "EXCLUSIVE", value: "4k-6k Gems", note: "" },
+                { name: "Ishowspeed", rarity: "EXCLUSIVE", value: "2k-3k Gems", note: "" },
+                { name: "Helpi", rarity: "EXCLUSIVE", value: "800-1.25k Gems", note: "" },
+                { name: "Kris", rarity: "EXCLUSIVE", value: "1.8k-2k Gems", note: "" },
+                { name: "Headless Horseman", rarity: "EXCLUSIVE", value: "1k-1.5k Gems", note: "" },
+                { name: "Reaper", rarity: "EXCLUSIVE", value: "1.7k-2.5k Gems", note: "" },
+                { name: "Plush Ink King", rarity: "EXCLUSIVE", value: "2k+ Gems", note: "" },
+                { name: "Drakobloxxer", rarity: "EXCLUSIVE", value: "1.8k-2k Gems", note: "" },
+                { name: "Pot O' Gold", rarity: "EXCLUSIVE", value: "500-700+ Gems", note: "" },
+                { name: "Nagiev", rarity: "EXCLUSIVE", value: "2000 Gems", note: "Dropping" },
+                { name: "Leprechaun", rarity: "EXCLUSIVE", value: "100 Gems", note: "" },
+                { name: "Jason", rarity: "EXCLUSIVE", value: "200 Gems", note: "" },
+                { name: "Party Kuzya", rarity: "EXCLUSIVE", value: "200 Gems", note: "" },
+                { name: "Baldi", rarity: "EXCLUSIVE", value: "60k+ Gems", note: "" },
+                { name: "Lovely Duo", rarity: "EXCLUSIVE", value: "1000+ Gems", note: "" },
+                { name: "John Doe", rarity: "EXCLUSIVE", value: "450 Gems", note: "" },
+                { name: "Santa Bot", rarity: "EXCLUSIVE", value: "1.5k-2k Gems", note: "Low Demand" },
+                { name: "Builder", rarity: "EXCLUSIVE", value: "3500+ Gems", note: "" },
+                { name: "Boxy Boo", rarity: "EXCLUSIVE", value: "5-6k Gems", note: "" },
+                { name: "Skeleton King", rarity: "EXCLUSIVE", value: "1.5-2k Gems", note: "" },
+                { name: "Ruined Huggy", rarity: "EXCLUSIVE", value: "25k-35k Gems", note: "" },
+                { name: "Peppino", rarity: "EXCLUSIVE", value: "1.5-2k Gems", note: "" },
+                { name: "Mutated One", rarity: "EXCLUSIVE", value: "200-300 Gems", note: "Gems" },
+                { name: "Huggy Wuggy", rarity: "EXCLUSIVE", value: "15k-25k Gems", note: "" },
+                { name: "1x4", rarity: "EXCLUSIVE", value: "80k+ Gems", note: "" },
+                { name: "Pyro", rarity: "EXCLUSIVE", value: "200 Gems", note: "" },
+                { name: "Winner Snickers", rarity: "EXCLUSIVE", value: "700-1.2k Gems", note: "" },
+                { name: "Skebob", rarity: "EXCLUSIVE", value: "5k Gems", note: "" },
+                { name: "Tung Tung", rarity: "EXCLUSIVE", value: "6k Gems", note: "" },
+                { name: "Four", rarity: "EXCLUSIVE", value: "444-600 Gems", note: "" },
+                { name: "8-bit", rarity: "EXCLUSIVE", value: "6-7k Gems", note: "" },
+                { name: "Homer", rarity: "EXCLUSIVE", value: "500-700 Gems", note: "" },
+                { name: "Bob", rarity: "EXCLUSIVE", value: "4-4.5k Gems", note: "" },
+                { name: "Mr Bling", rarity: "EXCLUSIVE", value: "28-30k Gems", note: "" },
+                { name: "Hollow", rarity: "EXCLUSIVE", value: "3k Gems", note: "" },
+                { name: "G-man", rarity: "EXCLUSIVE", value: "1.4k Gems", note: "" },
+                { name: "Ink Pepper", rarity: "EXCLUSIVE", value: "500-700 Gems", note: "" },
+                { name: "Metal Sonic", rarity: "EXCLUSIVE", value: "1k Gems", note: "" },
+                { name: "Baller", rarity: "EXCLUSIVE", value: "6k Gems", note: "" },
+                { name: "Mr Robux (Ex)", rarity: "EXCLUSIVE", value: "25-35k Gems", note: "" },
+                { name: "V1", rarity: "EXCLUSIVE", value: "4k Gems", note: "" },
+                { name: "Watercooler", rarity: "EXCLUSIVE", value: "2-3k Gems", note: "" },
+                { name: "Gabriel", rarity: "EXCLUSIVE", value: "1.5k-2k+ Gems", note: "" },
+                { name: "Heavy", rarity: "EXCLUSIVE", value: "5k-6k Gems", note: "" },
+                { name: "Player", rarity: "EXCLUSIVE", value: "6k-8k Gems", note: "" },
+                { name: "Blue", rarity: "EXCLUSIVE", value: "2k-2.5k Gems", note: "" },
+                { name: "Viktor Petrovich", rarity: "EVO", value: "50-100 Gems", note: "" },
+                { name: "Michael Afton", rarity: "EVO", value: "100 Gems", note: "" },
+                { name: "Corrupted Ink King", rarity: "EVO", value: "150-200 Gems", note: "" },
+                { name: "Bonk Scout", rarity: "EVO", value: "50-100 Gems", note: "" },
+                { name: "King Floppa", rarity: "EVO", value: "200-300 Gems", note: "" },
+                { name: "Dr. Einstein", rarity: "EVO", value: "400-500 Gems", note: "" },
+                { name: "Springtrap", rarity: "EVO", value: "400-500 Gems", note: "" },
+                { name: "Erik.Cassel (Evo)", rarity: "EVO", value: "400-500 Gems", note: "" },
+                { name: "Johnoloshka", rarity: "EVO", value: "100-200 Gems", note: "" },
+                { name: "Bad Time Sans", rarity: "EVO", value: "400-500 Gems", note: "" },
+                { name: "Admin Snickers", rarity: "EVO", value: "400-500 Gems", note: "" },
+                { name: "Exp 1-0-0-6", rarity: "EVO", value: "100k+ Gems", note: "" },
+                { name: "Ruined Huggy Wuggy", rarity: "EVO", value: "30k-40k Gems", note: "" },
+                { name: "Savini Jason", rarity: "EVO", value: "900-1000 Gems", note: "" },
+                { name: "Garrder", rarity: "EVO", value: "30k-50k Gems", note: "" },
+                { name: "Mr Robux (Evo)", rarity: "EVO", value: "25k-35k Gems", note: "" }
+            ],
+            // SHINY SECTION: You can add your shiny units here
+            shiny: [
+                { name: "Shiny Spinning Cat", rarity: "LEGENDARY", value: "30-40 Gems", note: "Shiny" },
+                { name: "Shiny Wazzup Ghostface", rarity: "LEGENDARY", value: "15-30 Gems", note: "Shiny" }
+            ],
+            items: [
+                { name: "Tix", rarity: "COMMON", value: "1", note: "Currency" },
+                { name: "Leaf", rarity: "COMMON", value: "1", note: "Material" },
+                { name: "Freddy Mask", rarity: "RARE", value: "3", note: "Item" },
+                { name: "Sword", rarity: "RARE", value: "3", note: "Weapon" },
+                { name: "Cloth", rarity: "EPIC", value: "5", note: "Material" },
+                { name: "Traffic Cone", rarity: "EPIC", value: "4", note: "Item" },
+                { name: "Yarn", rarity: "LEGENDARY", value: "20", note: "Material" },
+                { name: "Endo Body", rarity: "LEGENDARY", value: "15", note: "Item" },
+                { name: "Brainrot Rune", rarity: "LEGENDARY", value: "200", note: "Rune" },
+                { name: "67 Rune", rarity: "MYTHIC", value: "8000", note: "Rune" },
+                { name: "Bow Tie", rarity: "EXOTIC", value: "50", note: "Accessory" },
+                { name: "Prototype Crate", rarity: "SECRET", value: "70K+", note: "Accessory" },
+                { name: "Huggy Wuggy Crate", rarity: "EXCLUSIVE", value: 400, note: "" },
+                { name: "Classic Crate", rarity: "EXCLUSIVE", value: 150, note: "" },
+                { name: "Present", rarity: "EXCLUSIVE", value: 20, note: "" },
+                { name: "Christmas Crate", rarity: "EXCLUSIVE", value: 200, note: "" },
+                { name: "Deltarune Crate", rarity: "EXCLUSIVE", value: 150, note: "" },
+                { name: "Playtime Crate", rarity: "EXCLUSIVE", value: 100, note: "" },
+                { name: "Slap Crate", rarity: "EXCLUSIVE", value: 100, note: "" },
+                { name: "Ultrakill Crate", rarity: "EXCLUSIVE", value: 10, note: "" },
+                { name: "Evolution Crate", rarity: "EXCLUSIVE", value: 25, note: "" },
+                { name: "Raid Crate 1", rarity: "EXCLUSIVE", value: 200, note: "" },
+                { name: "Raid Crate 2", rarity: "EXCLUSIVE", value: 100, note: "" },
+                { name: "Exclusive Crate 1", rarity: "EXCLUSIVE", value: 300, note: "" },
+                { name: "Exclusive Crate 2", rarity: "EXCLUSIVE", value: 180, note: "" },
+                { name: "Wubbox Crate", rarity: "EXCLUSIVE", value: 50, note: "" },
+                { name: "Super Crate", rarity: "EXCLUSIVE", value: 10, note: "" },
+                { name: "Admin Abuse Crate 1", rarity: "EXCLUSIVE", value: 600, note: "" },
+                { name: "Admin Abuse Crate 2", rarity: "EXCLUSIVE", value: 300, note: "" },
+                { name: "Admin Abuse Crate 3", rarity: "EXCLUSIVE", value: 250, note: "" },
+                { name: "Admin Abuse Crate 4", rarity: "EXCLUSIVE", value: 200, note: "" },
+                { name: "April Fools Crate", rarity: "EXCLUSIVE", value: 100, note: "" },
+                { name: "The Alliance Crate", rarity: "EXCLUSIVE", value: 250, note: "" },
+                { name: "Toilet Crate", rarity: "EXCLUSIVE", value: 10, note: "" }
+            ]
+        };
 
-function setCategory(cat) {
-    currentCategory = cat;
-    activeRarity = null; // Reset rarity when switching tabs
-    
-    // Update button colors
-    document.getElementById('unitsTab').classList.toggle('active', cat === 'units');
-    document.getElementById('itemsTab').classList.toggle('active', cat === 'items');
-    
-    // Get the correct list and find which rarities it has
-    const data = (cat === 'units') ? units : items;
-    const rarities = [...new Set(data.map(d => d.rarity))];
-    
-    // Create the rarity filter buttons
-    const filterBar = document.getElementById('rarityFilters');
-    filterBar.innerHTML = rarities.map(r => 
-        `<div class="filter-chip" id="chip-${r}" onclick="setRarity('${r}')">${r}</div>`
-    ).join('');
-    
-    // Show the "Now select a rarity" message as seen in your screenshot
-    document.getElementById('grid').innerHTML = `<div class="empty-msg">Now select a rarity (e.g. ${rarities[0]})</div>`;
-}
-
-function setRarity(r) {
-    activeRarity = r;
-    // Highlight the selected rarity chip
-    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-    const chip = document.getElementById(`chip-${r}`);
-    if(chip) chip.classList.add('active');
-    
-    filterData(); // Show the units/items for this rarity
-}
-        
-        const units = [
-            // LEGENDARY
-            { name: "Spinning Cat", rarity: "LEGENDARY", val: "1-5 Gems", note: "UK/MG: TBA" },
-            { name: "Wazzup Ghostface", rarity: "LEGENDARY", val: "1-10 Gems", note: "UK/MG: TBA" },
-            { name: "Tralalero Tralala", rarity: "LEGENDARY", val: "5-10 Gems", note: "UK: 50 Gems" },
-
-            // MYTHIC
-            { name: "Bus Puxlya", rarity: "MYTHIC", val: "15-20 Gems", note: "UK/MG: TBA" },
-            { name: "Shiny Bus Puxlya", rarity: "MYTHIC", val: "70-100 Gems", note: "UK/MG: TBA" },
-            { name: "Susie", rarity: "MYTHIC", val: "5-30 Gems", note: "UK/MG: TBA" },
-            { name: "Shiny Susie", rarity: "MYTHIC", val: "100 Gems", note: "UK/MG: TBA" },
-            { name: "The Man Behind The Slaughter", rarity: "MYTHIC", val: "100 Gems", note: "" },
-            { name: "Shiny TMBTS", rarity: "MYTHIC", val: "150-200 Gems", note: "" },
-            { name: "Papyrus", rarity: "MYTHIC", val: "1-20 Gems", note: "" },
-            { name: "Shiny Papyrus", rarity: "MYTHIC", val: "TBA", note: "" },
-            { name: "Kissy Missy", rarity: "MYTHIC", val: "20-100 Gems", note: "" },
-            { name: "Shiny Kissy Missy", rarity: "MYTHIC", val: "100 Gems", note: "" },
-            { name: "Ink King", rarity: "MYTHIC", val: "5-10 Gems", note: "" },
-            { name: "Shiny Ink King", rarity: "MYTHIC", val: "10-20 Gems", note: "" },
-            { name: "Pixel Dino", rarity: "MYTHIC", val: "5-10 Gems", note: "" },
-            { name: "Shiny Pixel Dino", rarity: "MYTHIC", val: "10-20 Gems", note: "" },
-            { name: "Boneca Ambalabu", rarity: "MYTHIC", val: "50-100 Gems", note: "" },
-            { name: "Speakerman", rarity: "MYTHIC", val: "1000-1500 Gems", note: "" },
-            { name: "Shedletsky", rarity: "MYTHIC", val: "10-20 Gems", note: "" },
-            { name: "Shiny Shedletsky", rarity: "MYTHIC", val: "50 Gems", note: "" },
-
-            // EXOTIC
-            { name: "Purple Guy", rarity: "EXOTIC", val: "40-150 Gems", note: "" },
-            { name: "Sans", rarity: "EXOTIC", val: "15-30 Gems", note: "" },
-            { name: "Erik Cassel", rarity: "EXOTIC", val: "15-30 Gems", note: "" },
-            { name: "Slenderman", rarity: "EXOTIC", val: "15-30 Gems", note: "" },
-            { name: "Dr. Kleiner", rarity: "EXOTIC", val: "20-30 Gems", note: "" },
-            { name: "Eye of Cthulhu", rarity: "EXOTIC", val: "400-600 Gems", note: "" },
-            { name: "Ink Demon", rarity: "EXOTIC", val: "1000-1200 Gems", note: "" },
-            { name: "67 Brainrot", rarity: "EXOTIC", val: "700-1000 Gems", note: "" },
-            { name: "Multiblade Skibidi", rarity: "EXOTIC", val: "700-1000 Gems", note: "" },
-
-            // SECRET
-            { name: "CatNap", rarity: "SECRET", val: "5-6k", note: "Stable" },
-            { name: "Kuzvelia", rarity: "SECRET", val: "4-5k", note: "Stable" },
-            { name: "Disco Freddy", rarity: "SECRET", val: "5-6k", note: "Stable" },
-            { name: "Blackhat", rarity: "SECRET", val: "9k+", note: "Dropping" },
-            { name: "Eduardo", rarity: "SECRET", val: "N/A", note: "Fluctuating" },
-            { name: "Bendy Statue", rarity: "SECRET", val: "45-50k+", note: "Rising" },
-            { name: "Scp-067", rarity: "SECRET", val: "18k", note: "Rising" },
-            { name: "Rob", rarity: "SECRET", val: "80-90k", note: "Unstable" },
-
-            // DIVINE
-            { name: "Bill Cipher", rarity: "DIVINE", val: "6k-8k+", note: "" },
-            { name: "One", rarity: "DIVINE", val: "20k+", note: "" },
-            { name: "Chica's Rainbow", rarity: "DIVINE", val: "O/C", note: "TBA" },
-
-            // HERO
-            { name: "D1M3NS10N4L", rarity: "HERO", val: "2k-3k+", note: "" },
-            { name: "D00MBRINGER", rarity: "HERO", val: "2.5k-3k+", note: "" },
-            { name: "Ink King Overlord", rarity: "HERO", val: "3k-4k+", note: "" },
-            { name: "Beast Bendy", rarity: "HERO", val: "3k+", note: "" },
-            { name: "Titan Cameraman", rarity: "HERO", val: "O/C", note: "TBA" },
-
-            // EXCLUSIVE
-            { name: "Cloudy", rarity: "EXCLUSIVE", val: "35k", note: "O/C" },
-            { name: "Frostbear", rarity: "EXCLUSIVE", val: "3k-3.5k", note: "" },
-            { name: "Killstreak Snickers", rarity: "EXCLUSIVE", val: "1k-2k", note: "" },
-            { name: "Vicious Bee", rarity: "EXCLUSIVE", val: "4k-6k", note: "" },
-            { name: "Ishowspeed", rarity: "EXCLUSIVE", val: "2k-3k", note: "" },
-            { name: "Helpi", rarity: "EXCLUSIVE", val: "800-1.25k", note: "" },
-            { name: "Kris", rarity: "EXCLUSIVE", val: "1.8k-2k", note: "" },
-            { name: "Headless Horseman", rarity: "EXCLUSIVE", val: "1k-1.5k", note: "" },
-            { name: "Reaper", rarity: "EXCLUSIVE", val: "1.7k-2.5k", note: "" },
-            { name: "Plush Ink King", rarity: "EXCLUSIVE", val: "2k+", note: "" },
-            { name: "Drakobloxxer", rarity: "EXCLUSIVE", val: "1.8k-2k", note: "" },
-            { name: "Pot O' Gold", rarity: "EXCLUSIVE", val: "500-700+", note: "" },
-            { name: "Nagiev", rarity: "EXCLUSIVE", val: "2000", note: "Dropping" },
-            { name: "Leprechaun", rarity: "EXCLUSIVE", val: "100", note: "" },
-            { name: "Wubbox (Ex)", rarity: "EXCLUSIVE", val: "18k", note: "" },
-            { name: "Jason", rarity: "EXCLUSIVE", val: "200", note: "" },
-            { name: "Party Kuzya", rarity: "EXCLUSIVE", val: "200", note: "" },
-            { name: "Baldi", rarity: "EXCLUSIVE", val: "65k+-", note: "" },
-            { name: "Lovely Duo", rarity: "EXCLUSIVE", val: "1000+-", note: "" },
-            { name: "John Doe", rarity: "EXCLUSIVE", val: "450", note: "" },
-            { name: "Santa Bot", rarity: "EXCLUSIVE", val: "1.5k-2k", note: "Low Demand" },
-            { name: "Builder", rarity: "EXCLUSIVE", val: "3500+", note: "" },
-            { name: "Boxy Boo", rarity: "EXCLUSIVE", val: "5-6k", note: "" },
-            { name: "Skeleton King", rarity: "EXCLUSIVE", val: "1.5-2k", note: "" },
-            { name: "Ruined Huggy", rarity: "EXCLUSIVE", val: "25k-35k", note: "" },
-            { name: "Peppino", rarity: "EXCLUSIVE", val: "1.5-2k", note: "" },
-            { name: "Mutated One", rarity: "EXCLUSIVE", val: "200-300", note: "Gems" },
-            { name: "Huggy Wuggy", rarity: "EXCLUSIVE", val: "15k-25k", note: "" },
-            { name: "1x4", rarity: "EXCLUSIVE", val: "80k+", note: "" },
-            { name: "Pyro", rarity: "EXCLUSIVE", val: "200", note: "" },
-            { name: "Winner Snickers", rarity: "EXCLUSIVE", val: "700-1.2k", note: "" },
-            { name: "Skebob", rarity: "EXCLUSIVE", val: "5k", note: "" },
-            { name: "Tung Tung", rarity: "EXCLUSIVE", val: "6k", note: "" },
-            { name: "Four", rarity: "EXCLUSIVE", val: "444-600", note: "" },
-            { name: "8-bit", rarity: "EXCLUSIVE", val: "6-7k", note: "" },
-            { name: "Homer", rarity: "EXCLUSIVE", val: "500-700", note: "" },
-            { name: "Bob", rarity: "EXCLUSIVE", val: "4-4.5k", note: "" },
-            { name: "Mr Bling", rarity: "EXCLUSIVE", val: "28-30k", note: "" },
-            { name: "Hollow", rarity: "EXCLUSIVE", val: "3k", note: "" },
-            { name: "G-man", rarity: "EXCLUSIVE", val: "1.4k", note: "" },
-            { name: "Ink Pepper", rarity: "EXCLUSIVE", val: "500-700", note: "" },
-            { name: "Metal Sonic", rarity: "EXCLUSIVE", val: "1k", note: "" },
-            { name: "Baller", rarity: "EXCLUSIVE", val: "6k", note: "" },
-            { name: "Mr Robux (Ex)", rarity: "EXCLUSIVE", val: "25-35k", note: "" },
-            { name: "V1", rarity: "EXCLUSIVE", val: "4k", note: "" },
-            { name: "Watercooler", rarity: "EXCLUSIVE", val: "2-3k", note: "" },
-            { name: "Gabriel", rarity: "EXCLUSIVE", val: "1.5k-2k+", note: "" },
-            { name: "Heavy", rarity: "EXCLUSIVE", val: "5k-6k", note: "" },
-            { name: "Player", rarity: "EXCLUSIVE", val: "6k-8k", note: "" },
-            { name: "Blue", rarity: "EXCLUSIVE", val: "2k-2.5k", note: "" },
-
-            // EVO/CRAFTED
-            { name: "Viktor Petrovich", rarity: "EVO", val: "50-100 Gems", note: "" },
-            { name: "Michael Afton", rarity: "EVO", val: "100 Gems", note: "" },
-            { name: "Corrupted Ink King", rarity: "EVO", val: "150-200 Gems", note: "" },
-            { name: "Bonk Scout", rarity: "EVO", val: "50-100 Gems", note: "" },
-            { name: "King Floppa", rarity: "EVO", val: "200-300 Gems", note: "" },
-            { name: "Dr. Einstein", rarity: "EVO", val: "400-500 Gems", note: "" },
-            { name: "Springtrap", rarity: "EVO", val: "400-500 Gems", note: "" },
-            { name: "Erik.Cassel (Evo)", rarity: "EVO", val: "400-500 Gems", note: "" },
-            { name: "Johnoloshka", rarity: "EVO", val: "100-200 Gems", note: "" },
-            { name: "Bad Time Sans", rarity: "EVO", val: "400-500 Gems", note: "" },
-            { name: "Admin Snickers", rarity: "EVO", val: "400-500 Gems", note: "" },
-            { name: "Exp 1-0-0-6", rarity: "EVO", val: "100k-???", note: "" },
-            { name: "Ruined Huggy Wuggy", rarity: "EVO", val: "30k-40k", note: "" },
-            { name: "Savini Jason", rarity: "EVO", val: "900-1000 Gems", note: "" },
-            { name: "Garrder", rarity: "EVO", val: "30k-50k", note: "" },
-            { name: "Wubbox (Evo)", rarity: "EVO", val: "10k-15k", note: "" },
-            { name: "Mr Robux (Evo)", rarity: "EVO", val: "25k-35k", note: "" }
-        ];
-
-        function render(list) {
-            const grid = document.getElementById('grid');
-            grid.innerHTML = list.map(u => `
-                <div class="unit-card">
-                    <span class="rarity-label ${u.rarity}">${u.rarity}</span>
-                    <div class="unit-name">${u.name}</div>
-                    <div class="unit-val">${u.val}</div>
-                    ${u.note ? `<div class="unit-notes">${u.note}</div>` : ''}
-                </div>
-            `).join('');
-        }
-
-        function searchUnits() {
-            const query = document.getElementById('search').value.toLowerCase();
-            const filtered = units.filter(u => u.name.toLowerCase().includes(query) || u.rarity.toLowerCase().includes(query));
-            render(filtered);
-        }
-
-        render(units);
-    </script>
-</body>
-</html>
-<script>
-            { name: "Leprechaun", rarity: "EXCLUSIVE", val: "100", note: "" },
-            { name: "Wubbox (Ex)", rarity: "EXCLUSIVE", val: "18k", note: "" },
-            { name: "Jason", rarity: "EXCLUSIVE", val: "200", note: "" },
-            { name: "Party Kuzya", rarity: "EXCLUSIVE", val: "200", note: "" },
-            { name: "Baldi", rarity: "EXCLUSIVE", val: "65k+-", note: "" },
-            { name: "Lovely Duo", rarity: "EXCLUSIVE", val: "1000+-", note: "" },
-            { name: "John Doe", rarity: "EXCLUSIVE", val: "450", note: "" },
-            { name: "Santa Bot", rarity: "EXCLUSIVE", val: "1.5k-2k", note: "Low Demand" },
-            { name: "Builder", rarity: "EXCLUSIVE", val: "3500+", note: "" },
-            { name: "Boxy Boo", rarity: "EXCLUSIVE", val: "5-6k", note: "" },
-            { name: "Skeleton King", rarity: "EXCLUSIVE", val: "1.5-2k", note: "" },
-            { name: "Ruined Huggy", rarity: "EXCLUSIVE", val: "25k-35k", note: "" },
-            { name: "Peppino", rarity: "EXCLUSIVE", val: "1.5-2k", note: "" },
-            { name: "Mutated One", rarity: "EXCLUSIVE", val: "200-300", note: "Gems" },
-            { name: "Huggy Wuggy", rarity: "EXCLUSIVE", val: "15k-25k", note: "" },
-            { name: "1x4", rarity: "EXCLUSIVE", val: "80k+", note: "" },
-            { name: "Pyro", rarity: "EXCLUSIVE", val: "200", note: "" },
-            { name: "Winner Snickers", rarity: "EXCLUSIVE", val: "700-1.2k", note: "" },
-            { name: "Skebob", rarity: "EXCLUSIVE", val: "5k", note: "" },
-            { name: "Tung Tung", rarity: "EXCLUSIVE", val: "6k", note: "" },
-            { name: "Four", rarity: "EXCLUSIVE", val: "444-600", note: "" },
-            { name: "8-bit", rarity: "EXCLUSIVE", val: "6-7k", note: "" },
-            { name: "Homer", rarity: "EXCLUSIVE", val: "500-700", note: "" },
-            { name: "Bob", rarity: "EXCLUSIVE", val: "4-4.5k", note: "" },
-            { name: "Mr Bling", rarity: "EXCLUSIVE", val: "28-30k", note: "" },
-            { name: "Hollow", rarity: "EXCLUSIVE", val: "3k", note: "" },
-            { name: "G-man", rarity: "EXCLUSIVE", val: "1.4k", note: "" },
-            { name: "Ink Pepper", rarity: "EXCLUSIVE", val: "500-700", note: "" },
-            { name: "Metal Sonic", rarity: "EXCLUSIVE", val: "1k", note: "" },
-            { name: "Baller", rarity: "EXCLUSIVE", val: "6k", note: "" },
-            { name: "Mr Robux (Ex)", rarity: "EXCLUSIVE", val: "25-35k", note: "" },
-            { name: "V1", rarity: "EXCLUSIVE", val: "4k", note: "" },
-            { name: "Watercooler", rarity: "EXCLUSIVE", val: "2-3k", note: "" },
-            { name: "Gabriel", rarity: "EXCLUSIVE", val: "1.5k-2k+", note: "" },
-            { name: "Heavy", rarity: "EXCLUSIVE", val: "5k-6k", note: "" },
-            { name: "Player", rarity: "EXCLUSIVE", val: "6k-8k", note: "" },
-            { name: "Blue", rarity: "EXCLUSIVE", val: "2k-2.5k", note: "" },
-
-            // EVO/CRAFTED
-            { name: "Viktor Petrovich", rarity: "EVO", val: "50-100 Gems", note: "" },
-            { name: "Michael Afton", rarity: "EVO", val: "100 Gems", note: "" },
-            { name: "Corrupted Ink King", rarity: "EVO", val: "150-200 Gems", note: "" },
-            { name: "Bonk Scout", rarity: "EVO", val: "50-100 Gems", note: "" },
-            { name: "King Floppa", rarity: "EVO", val: "200-300 Gems", note: "" },
-            { name: "Dr. Einstein", rarity: "EVO", val: "400-500 Gems", note: "" },
-            { name: "Springtrap", rarity: "EVO", val: "400-500 Gems", note: "" },
-            { name: "Erik.Cassel (Evo)", rarity: "EVO", val: "400-500 Gems", note: "" },
-            { name: "Johnoloshka", rarity: "EVO", val: "100-200 Gems", note: "" },
-            { name: "Bad Time Sans", rarity: "EVO", val: "400-500 Gems", note: "" },
-            { name: "Admin Snickers", rarity: "EVO", val: "400-500 Gems", note: "" },
-            { name: "Exp 1-0-0-6", rarity: "EVO", val: "100k-???", note: "" },
-            { name: "Ruined Huggy Wuggy", rarity: "EVO", val: "30k-40k", note: "" },
-            { name: "Savini Jason", rarity: "EVO", val: "900-1000 Gems", note: "" },
-            { name: "Garrder", rarity: "EVO", val: "30k-50k", note: "" },
-            { name: "Wubbox (Evo)", rarity: "EVO", val: "10k-15k", note: "" },
-            { name: "Mr Robux (Evo)", rarity: "EVO", val: "25k-35k", note: "" }
-        ];
-
-        function render(list) {
-            const grid = document.getElementById('grid');
-            grid.innerHTML = list.map(u => `
-                <div class="unit-card">
-                    <span class="rarity-label ${u.rarity}">${u.rarity}</span>
-                    <div class="unit-name">${u.name}</div>
-                    <div class="unit-val">${u.val}</div>
-                    ${u.note ? `<div class="unit-notes">${u.note}</div>` : ''}
-                </div>
-            `).join('');
-        }
-
-        function searchUnits() {
-            const query = document.getElementById('search').value.toLowerCase();
-            const filtered = units.filter(u => u.name.toLowerCase().includes(query) || u.rarity.toLowerCase().includes(query));
-            render(filtered);
-        }
-
-        render(units);
-    </script>
-</body>
-</html>
-    <script>
-            document.getElementById(`chip-${r}`).classList.add('active');
-            filterData();
-        }
-
-        function filterData() {
-            if (!activeRarity) return;
-            const query = document.getElementById('search').value.toLowerCase();
-            const data = currentCategory === 'units' ? units : items;
-            const filtered = data.filter(d => d.rarity === activeRarity && d.name.toLowerCase().includes(query));
-            render(filtered);
-        }
-
-        function render(list) {
-            const grid = document.getElementById('grid');
-            if (list.length === 0 && activeRarity) { grid.innerHTML = `<div class="empty-msg">None found</div>`; return; }
-            grid.innerHTML = list.map(u => `
-                <div class="unit-card" style="border-top-color: var(--${u.rarity.toLowerCase()})">
-                    <span class="rarity-label ${u.rarity}">${u.rarity}</span>
-                    <div class="unit-name">${u.name}</div>
-                    <div class="unit-val">${u.val}</div>
-                    ${u.note ? `<div class="unit-notes">${u.note}</div>` : ''}
-                </div>
-            `).join('');
-        }
-
-        function populateSelectors() {
-            const all = [...units, ...items].sort((a,b) => a.name.localeCompare(b.name));
-            const options = all.map(d => `<option value="${d.n}">${d.name}</option>`).join('');
-            document.getElementById('userUnit').innerHTML = '<option value="0">Select...</option>' + options;
-            document.getElementById('theirUnit').innerHTML = '<option value="0">Select...</option>' + options;
-        }
-
-        function calculateTrade() {
-            const v1 = parseInt(document.getElementById('userUnit').value);
-            const v2 = parseInt(document.getElementById('theirUnit').value);
-            const banner = document.getElementById('resultBanner');
-            document.getElementById('userVal').innerText = v1.toLocaleString();
-            document.getElementById('theirVal').innerText = v2.toLocaleString();
-            if(v1 === 0 || v2 === 0) { banner.style.display = 'none'; return; }
-            banner.style.display = 'block';
-            const diff = v2 - v1;
-            if (diff > (v1 * 0.1)) { banner.innerText = "WIN!"; banner.style.background = 'var(--win)'; }
-            else if (diff < -(v1 * 0.1)) { banner.innerText = "LOSS!"; banner.style.background = 'var(--loss)'; }
-            else { banner.innerText = "FAIR"; banner.style.background = 'var(--fair)'; }
-        }
-
-        populateSelectors();
-        setCategory('units');
-    </script>
-</body>
-</html>
-    <script>
-            // DIVINE
-            { name: "Bill Cipher", rarity: "DIVINE", val: "6k-8k+", n: 7000 },
-            { name: "One", rarity: "DIVINE", val: "20k+", n: 20000 },
-            { name: "Chica's Magic Rainbow", rarity: "DIVINE", val: "O/C", n: 100000 },
-
-            // HERO
-            { name: "D1M3NS10N4L", rarity: "HERO", val: "2k-3k+", n: 2500 },
-            { name: "D00MBRINGER", rarity: "HERO", val: "2.5k-3K+", n: 2750 },
-            { name: "Ink King Overlord", rarity: "HERO", val: "3k-4k+", n: 3500 },
-            { name: "Beast Bendy", rarity: "HERO", val: "3k+", n: 3000 },
-            { name: "Titan Cameraman", rarity: "HERO", val: "O/C", n: 10000 },
-
-            // EXCLUSIVE
-            { name: "Cloudy", rarity: "EXCLUSIVE", val: "35k", n: 35000, note: "O/C" },
-            { name: "Frostbear", rarity: "EXCLUSIVE", val: "3k-3.5k", n: 3250 },
-            { name: "Killstreak Snickers", rarity: "EXCLUSIVE", val: "1k-2k", n: 1500 },
-            { name: "Vicious Bee", rarity: "EXCLUSIVE", val: "4k-6k", n: 5000 },
-            { name: "Ishowspeed", rarity: "EXCLUSIVE", val: "2k-3k", n: 2500 },
-            { name: "Helpi", rarity: "EXCLUSIVE", val: "800-1.25k", n: 1025 },
-            { name: "Kris", rarity: "EXCLUSIVE", val: "1.8k-2k", n: 1900 },
-            { name: "Headless Horseman", rarity: "EXCLUSIVE", val: "1k-1.5k", n: 1250 },
-            { name: "Reaper", rarity: "EXCLUSIVE", val: "1.7k-2.5k", n: 2100 },
-            { name: "Plush Ink King", rarity: "EXCLUSIVE", val: "2k+", n: 2000 },
-            { name: "Drakobloxxer", rarity: "EXCLUSIVE", val: "1.8k-2k", n: 1900 },
-            { name: "Pot O' Gold", rarity: "EXCLUSIVE", val: "500-700+", n: 600 },
-            { name: "Nagiev", rarity: "EXCLUSIVE", val: "2000", n: 2000, note: "Slowly Dropping" },
-            { name: "Leprechaun", rarity: "EXCLUSIVE", val: "100", n: 100 },
-            { name: "Wubbox (Exclusive)", rarity: "EXCLUSIVE", val: "18k", n: 18000 },
-            { name: "Jason", rarity: "EXCLUSIVE", val: "200", n: 200 },
-            { name: "Party Kuzya", rarity: "EXCLUSIVE", val: "200", n: 200 },
-            { name: "Baldi", rarity: "EXCLUSIVE", val: "65k+-", n: 65000 },
-            { name: "Lovely Duo", rarity: "EXCLUSIVE", val: "1000+-", n: 1000 },
-            { name: "John Doe", rarity: "EXCLUSIVE", val: "450", n: 450 },
-            { name: "Santa Bot", rarity: "EXCLUSIVE", val: "1.5k-2k", n: 1750, note: "Low Demand" },
-            { name: "Builder", rarity: "EXCLUSIVE", val: "3500+", n: 3500 },
-            { name: "Boxy Boo", rarity: "EXCLUSIVE", val: "5-6k", n: 5500 },
-            { name: "Skeleton King", rarity: "EXCLUSIVE", val: "1.5-2k", n: 1750 },
-            { name: "Ruined Huggy", rarity: "EXCLUSIVE", val: "25k-35k", n: 30000 },
-            { name: "Peppino", rarity: "EXCLUSIVE", val: "1.5-2k", n: 1750 },
-            { name: "Mutated One", rarity: "EXCLUSIVE", val: "200-300", n: 250 },
-            { name: "Huggy Wuggy", rarity: "EXCLUSIVE", val: "15k-25k", n: 20000 },
-            { name: "1x4", rarity: "EXCLUSIVE", val: "80k+", n: 80000 },
-            { name: "Pyro", rarity: "EXCLUSIVE", val: "200", n: 200 },
-            { name: "Winner Snickers", rarity: "EXCLUSIVE", val: "700-1.2k", n: 950 },
-            { name: "Skebob", rarity: "EXCLUSIVE", val: "5k", n: 5000 },
-            { name: "Tung Tung", rarity: "EXCLUSIVE", val: "6k", n: 6000 },
-            { name: "Four", rarity: "EXCLUSIVE", val: "444-600", n: 522 },
-            { name: "8 bit", rarity: "EXCLUSIVE", val: "6-7k", n: 6500 },
-            { name: "Homer", rarity: "EXCLUSIVE", val: "500-700", n: 600 },
-            { name: "Bob", rarity: "EXCLUSIVE", val: "4-4.5k", n: 4250 },
-            { name: "Mr Bling", rarity: "EXCLUSIVE", val: "28-30k", n: 29000 },
-            { name: "Hollow", rarity: "EXCLUSIVE", val: "3k", n: 3000 },
-            { name: "G-man", rarity: "EXCLUSIVE", val: "1.4k", n: 1400 },
-            { name: "Ink Pepper", rarity: "EXCLUSIVE", val: "500-700", n: 600 },
-            { name: "Metal Sonic", rarity: "EXCLUSIVE", val: "1k", n: 1000 },
-            { name: "Baller", rarity: "EXCLUSIVE", val: "6k", n: 6000 },
-            { name: "Mr Robux", rarity: "EXCLUSIVE", val: "25-35k", n: 30000 },
-            { name: "V1", rarity: "EXCLUSIVE", val: "4k", n: 4000 },
-            { name: "Watercooler", rarity: "EXCLUSIVE", val: "2-3k", n: 2500 },
-            { name: "Gabriel", rarity: "EXCLUSIVE", val: "1.5k-2k+", n: 1750 },
-            { name: "Heavy", rarity: "EXCLUSIVE", val: "5k-6k", n: 5500 },
-            { name: "Player", rarity: "EXCLUSIVE", val: "6k-8k", n: 7000 },
-            { name: "Blue", rarity: "EXCLUSIVE", val: "2k-2.5k", n: 2250 },
-
-            // EVO
-            { name: "Viktor Petrovich", rarity: "EVO", val: "50-100 Gems", n: 75 },
-            { name: "Michael Afton", rarity: "EVO", val: "100 Gems", n: 100 },
-            { name: "Corrupted Ink King", rarity: "EVO", val: "150-200 Gems", n: 175 },
-            { name: "Bonk Scout", rarity: "EVO", val: "50-100 Gems", n: 75 },
-            { name: "King Floppa", rarity: "EVO", val: "200-300 Gems", n: 250 },
-            { name: "Dr. Einstein", rarity: "EVO", val: "400-500 Gems", n: 450 },
-            { name: "Springtrap", rarity: "EVO", val: "400-500 Gems", n: 450 },
-            { name: "Erik.Cassel (Evo)", rarity: "EVO", val: "400-500 Gems", n: 450 },
-            { name: "Johnoloshka", rarity: "EVO", val: "100-200 Gems", n: 150 },
-            { name: "Bad Time Sans", rarity: "EVO", val: "400-500 Gems", n: 450 },
-            { name: "Admin Snickers", rarity: "EVO", val: "400-500 Gems", n: 450 },
-            { name: "Experiment 1-0-0-6", rarity: "EVO", val: "100K-??? Gems", n: 150000 },
-            { name: "Ruined Huggy Wuggy", rarity: "EVO", val: "30k-40k Gems", n: 35000 },
-            { name: "Savini Jason", rarity: "EVO", val: "900-1000 Gems", n: 950 },
-            { name: "Garrder", rarity: "EVO", val: "30k-50k Gems", n: 40000 },
-            { name: "Wubbox (Evo)", rarity: "EVO", val: "10k-15k Gems", n: 12500 },
-            { name: "Mr Robux (Evo)", rarity: "EVO", val: "25k-35k Gems", n: 30000 }
-        ];
-
-                const items = [
-            // COMMON
-            { name: "Tix", rarity: "COMMON", val: 1, n: 1 },
-            { name: "Leaf", rarity: "COMMON", val: 1, n: 1 },
-
-            // RARE
-            { name: "Freddy mask", rarity: "RARE", val: 3, n: 3 },
-            { name: "Sword", rarity: "RARE", val: 3, n: 3 },
-
-            // EPIC
-            { name: "Cloth", rarity: "EPIC", val: 5, n: 5 },
-            { name: "Traffic Cone", rarity: "EPIC", val: 4, n: 4 },
-
-            // LEGENDARY
-            { name: "Yarn", rarity: "LEGENDARY", val: 20, n: 20 },
-            { name: "Endo Body", rarity: "LEGENDARY", val: 15, n: 15 },
-            { name: "Hammer", rarity: "LEGENDARY", val: 25, n: 25 },
-            { name: "Brainrot Rune", rarity: "LEGENDARY", val: 200, n: 200 },
-
-            // MYTHIC
-            { name: "67 Rune", rarity: "MYTHIC", val: 4500, n: 4500 },
-
-            // EXOTIC
-            { name: "Bow tie", rarity: "EXOTIC", val: 50, n: 50 },
-            { name: "Bucket O’ Paint", rarity: "EXOTIC", val: 500, n: 500, note: "Endless Pack" },
-            { name: "Golden Hat", rarity: "EXOTIC", val: 700, n: 700, note: "Endless Pack" },
-
-            // SECRET
-            { name: "Prototype Crate", rarity: "SECRET", val: "70k- OC", n: 70000 },
-
-            // EXCLUSIVE
-            { name: "Huggy Wuggy Crate", rarity: "EXCLUSIVE", val: 400, n: 400 },
-            { name: "Classic Crate", rarity: "EXCLUSIVE", val: 150, n: 150 },
-            { name: "Present", rarity: "EXCLUSIVE", val: 20, n: 20 },
-            { name: "Christmas Crate", rarity: "EXCLUSIVE", val: 200, n: 200 },
-            { name: "Deltarune Crate", rarity: "EXCLUSIVE", val: 150, n: 150 },
-            { name: "Playtime Crate", rarity: "EXCLUSIVE", val: 100, n: 100 },
-            { name: "Slap Crate", rarity: "EXCLUSIVE", val: 100, n: 100 },
-            { name: "Ultrakill Crate", rarity: "EXCLUSIVE", val: 10, n: 10 },
-            { name: "Evolution Crate", rarity: "EXCLUSIVE", val: 25, n: 25 },
-            { name: "Raid Crate 1", rarity: "EXCLUSIVE", val: 200, n: 200 },
-            { name: "Raid Crate 2", rarity: "EXCLUSIVE", val: 100, n: 100 },
-            { name: "Exclusive Crate 1", rarity: "EXCLUSIVE", val: 300, n: 300 },
-            { name: "Exclusive Crate 2", rarity: "EXCLUSIVE", val: 180, n: 180 },
-            { name: "Wubbox Crate", rarity: "EXCLUSIVE", val: 50, n: 50 },
-            { name: "Super Crate", rarity: "EXCLUSIVE", val: 10, n: 10 },
-            { name: "Admin Abuse Crate 1", rarity: "EXCLUSIVE", val: 600, n: 600 },
-            { name: "Admin Abuse Crate 2", rarity: "EXCLUSIVE", val: 300, n: 300 },
-            { name: "Admin Abuse Crate 3", rarity: "EXCLUSIVE", val: 250, n: 250 },
-            { name: "Admin Abuse Crate 4", rarity: "EXCLUSIVE", val: 200, n: 200 },
-            { name: "April Fools Crate", rarity: "EXCLUSIVE", val: 100, n: 100 },
-            { name: "The Alliance Crate", rarity: "EXCLUSIVE", val: 250, n: 250 },
-            { name: "Toilet Crate", rarity: "EXCLUSIVE", val: 10, n: 10 }
-        ];
-        
-        let currentCategory = 'units';
-        let activeRarity = null;
-
-                function setCategory(cat) {
-            currentCategory = cat;
-            activeRarity = null;
-            document.getElementById('unitsTab').classList.toggle('active', cat === 'units');
-            document.getElementById('itemsTab').classList.toggle('active', cat === 'items');
+        function showCategory(cat) {
+            document.getElementById('btn-units').className = (cat === 'units') ? 'active' : '';
+            document.getElementById('btn-shiny').className = (cat === 'shiny') ? 'active' : '';
+            document.getElementById('btn-items').className = (cat === 'items') ? 'active' : '';
             
-            const data = cat === 'units' ? units : items;
-            const rarities = [...new Set(data.map(d => d.rarity))];
-            const filterBar = document.getElementById('rarityFilters');
+            document.getElementById('unit-rarities').className = (cat === 'units') ? 'rarity-nav' : 'hidden';
+            document.getElementById('shiny-rarities').className = (cat === 'shiny') ? 'rarity-nav' : 'hidden';
+            document.getElementById('item-rarities').className = (cat === 'items') ? 'rarity-nav' : 'hidden';
             
-            filterBar.innerHTML = rarities.map(r => `<div class="filter-chip" id="chip-${r}" onclick="setRarity('${r}')">${r}</div>`).join('');
+            window.currentCat = cat;
+            document.getElementById('list-container').innerHTML = '<div class="empty-msg">Select a Rarity to view the values.</div>';
             
-            // This adds the "Now select a rarity" text when you swap tabs
-            document.getElementById('grid').innerHTML = `<div class="empty-msg">Now select a rarity (e.g. ${rarities[0]})</div>`;
+            document.querySelectorAll('.r-btn').forEach(b => b.classList.remove('active'));
         }
 
+        function filterRarity(rarity, btn) {
+            document.querySelectorAll('.r-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
 
-        function setRarity(r) {
-            activeRarity = r;
-            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-            const chip = document.getElementById(`chip-${r}`);
-            if(chip) chip.classList.add('active');
-            filterData();
-        }
-
-        function filterData() {
-            if (!activeRarity) return;
-            const query = document.getElementById('search').value.toLowerCase();
-            const data = currentCategory === 'units' ? units : items;
-            const filtered = data.filter(d => d.rarity === activeRarity && d.name.toLowerCase().includes(query));
-            render(filtered);
-        }
-
-                function render(list) {
-            const grid = document.getElementById('grid');
+            const items = data[window.currentCat].filter(i => i.rarity === rarity);
+            const container = document.getElementById('list-container');
             
-            // This shows the message if a search or filter has no results
-            if (list.length === 0 && activeRarity) {
-                grid.innerHTML = `<div class="empty-msg">No results found in ${activeRarity}</div>`;
+            if (items.length === 0) {
+                container.innerHTML = '<div class="empty-msg">No data available for this rarity yet.</div>';
                 return;
             }
 
-            let html = '';
-            for (let i = 0; i < list.length; i++) {
-                const u = list[i];
-                const displayVal = (typeof u.val === 'number') ? u.val.toLocaleString() : u.val;
-                const noteContent = u.note ? `<div class="unit-notes">${u.note}</div>` : '';
-                
-                html += `
-                    <div class="unit-card" style="border-top-color: var(--${u.rarity.toLowerCase()})">
-                        <span class="rarity-label ${u.rarity}">${u.rarity}</span>
-                        <div class="unit-name">${u.name}</div>
-                        <div class="unit-val">${displayVal} Gems</div>
-                        ${noteContent}
-                    </div>
-                `;
-            }
-            grid.innerHTML = html;
-        }
-
-
-        function populateSelectors() {
-            const all = [...units, ...items].sort((a,b) => a.name.localeCompare(b.name));
-            const options = all.map(d => `<option value="${d.n}">${d.name}</option>`).join('');
-            document.getElementById('userUnit').innerHTML = '<option value="0">Select Unit...</option>' + options;
-            document.getElementById('theirUnit').innerHTML = '<option value="0">Select Unit...</option>' + options;
-        }
-
-        function calculateTrade() {
-            const v1 = parseFloat(document.getElementById('userUnit').value);
-            const v2 = parseFloat(document.getElementById('theirUnit').value);
-            const banner = document.getElementById('resultBanner');
-            document.getElementById('userVal').innerText = v1.toLocaleString();
-            document.getElementById('theirVal').innerTextove('active'));
-            const chip = document.getElementById(`chip-${r}`);
-            if(chip) chip.classList.add('active');
-            filterData();
-        }
-
-        function filterData() {
-            if (!activeRarity) return;
-            const query = document.getElementById('search').value.toLowerCase();
-            const data = currentCategory === 'units' ? units : items;
-            const filtered = data.filter(d => d.rarity === activeRarity && d.name.toLowerCase().includes(query));
-            render(filtered);
-        }
-
-        function render(list) {
-            const grid = document.getElementById('grid');
-            if (list.length === 0 && activeRarity) {
-                grid.innerHTML = `<div class="empty-msg">No results found in ${activeRarity}</div>`;
-                return;
-            }
-            
-            let html = '';
-            for (let i = 0; i < list.length; i++) {
-                const u = list[i];
-                const displayVal = (typeof u.val === 'number') ? u.val.toLocaleString() : u.val;
-                const noteContent = u.note ? `<div class="unit-notes">${u.note}</div>` : '';
-                
-                html += `
-                    <div class="unit-card" style="border-top-color: var(--${u.rarity.toLowerCase()})">
-                        <span class="rarity-label ${u.rarity}">${u.rarity}</span>
-                        <div class="unit-name">${u.name}</div>
-                        <div class="unit-val">${displayVal} Gems</div>
-                        ${noteContent}
-                    </div>
-                `;
-            }
-            grid.innerHTML = html;
-        }
-
-        function populateSelectors() {
-            const all = [...units, ...items].sort((a,b) => a.name.localeCompare(b.name));
-            const options = all.map(d => `<option value="${d.n}">${d.name}</option>`).join('');
-            document.getElementById('userUnit').innerHTML = '<option value="0">Select Unit...</option>' + options;
-            document.getElementById('theirUnit').innerHTML = '<option value="0">Select Unit...</option>' + options;
-        }
-
-        function calculateTrade() {
-            const v1 = parseFloat(document.getElementById('userUnit').value);
-            const v2 = parseFloat(document.getElementById('theirUnit').value);
-            const banner = document.getElementById('resultBanner');
-            document.getElementById('userVal').innerText = v1.toLocaleString();
-            document.getElementById('theirVal').innerText = v2.toLocaleString();
-            if(v1 === 0 || v2 === 0) { banner.style.display = 'none'; return; }
-            banner.style.display = 'block';
-            const diff = v2 - v1;
-            const threshold = v1 * 0.15; 
-            if (diff > threshold) { banner.innerText = `WIN (+${diff.toLocaleString()})`; banner.style.background = 'var(--win)'; }
-            else if (diff < -threshold) { banner.innerText = `LOSS (${diff.toLocaleString()})`; banner.style.background = 'var(--loss)'; }
-            else { banner.innerText = "FAIR TRADE"; banner.style.background = 'var(--fair)'; }
-        }
-
-        populateSelectors();
-        setCategory('units');
-
-            { name: "D1M3NS10N4L", rarity: "HERO", val: "2k-3k+", n: 2500 },
-            { name: "D00MBRINGER", rarity: "HERO", val: "2.5k-3K+", n: 2750 },
-            { name: "Ink King Overlord", rarity: "HERO", val: "3k-4k+", n: 3500 },
-            { name: "Beast Bendy", rarity: "HERO", val: "3k+", n: 3000 },
-            { name: "Titan Cameraman", rarity: "HERO", val: "O/C", n: 10000 },
-            { name: "Cloudy", rarity: "EXCLUSIVE", val: "35k", n: 35000 },
-            { name: "Frostbear", rarity: "EXCLUSIVE", val: "3k-3.5k", n: 3250 },
-            { name: "Vicious Bee", rarity: "EXCLUSIVE", val: "4k-6k", n: 5000 },
-            { name: "Baldi", rarity: "EXCLUSIVE", val: "65k+-", n: 65000 },
-            { name: "1x4", rarity: "EXCLUSIVE", val: "80k+", n: 80000 },
-            { name: "Springtrap", rarity: "EVO", val: "400-500 Gems", n: 450 },
-            { name: "Wubbox (Evo)", rarity: "EVO", val: "10k-15k", n: 12500 }
-        ];
-
-                const items = [
-            // COMMON
-            { name: "Tix", rarity: "COMMON", val: "1", n: 1 },
-            { name: "Leaf", rarity: "COMMON", val: "1", n: 1 },
-
-            // RARE
-            { name: "Freddy Mask", rarity: "RARE", val: "3", n: 3 },
-            { name: "Sword", rarity: "RARE", val: "3", n: 3 },
-
-            // EPIC
-            { name: "Cloth", rarity: "EPIC", val: "5", n: 5 },
-            { name: "Traffic Cone", rarity: "EPIC", val: "4", n: 4 },
-
-            // LEGENDARY
-            { name: "Yarn", rarity: "LEGENDARY", val: "20", n: 20 },
-            { name: "Endo Body", rarity: "LEGENDARY", val: "15", n: 15 },
-            { name: "Hammer", rarity: "LEGENDARY", val: "25", n: 25 },
-            { name: "Brainrot Rune", rarity: "LEGENDARY", val: "200", n: 200 },
-
-            // MYTHIC
-            { name: "67 Rune", rarity: "MYTHIC", val: "4,500", n: 4500 },
-
-            // EXOTIC
-            { name: "Bow Tie", rarity: "EXOTIC", val: "50", n: 50 },
-            { name: "Bucket O’ Paint", rarity: "EXOTIC", val: "500??", n: 500, note: "Endless Pack" },
-            { name: "Golden Hat", rarity: "EXOTIC", val: "700??", n: 700, note: "Endless Pack" },
-
-            // SECRET
-            { name: "Prototype Crate", rarity: "SECRET", val: "70k", n: 70000, note: "O/C" },
-
-            // EXCLUSIVE
-            { name: "Huggy Wuggy Crate", rarity: "EXCLUSIVE", val: "400", n: 400 },
-            { name: "Classic Crate", rarity: "EXCLUSIVE", val: "150", n: 150 },
-            { name: "Present", rarity: "EXCLUSIVE", val: "20", n: 20 },
-            { name: "Christmas Crate", rarity: "EXCLUSIVE", val: "200", n: 200 },
-            { name: "Deltarune Crate", rarity: "EXCLUSIVE", val: "150", n: 150 },
-            { name: "Playtime Crate", rarity: "EXCLUSIVE", val: "100", n: 100 },
-            { name: "Slap Crate", rarity: "EXCLUSIVE", val: "100", n: 100 },
-            { name: "Ultrakill Crate", rarity: "EXCLUSIVE", val: "10", n: 10 },
-            { name: "Evolution Crate", rarity: "EXCLUSIVE", val: "25", n: 25 },
-            { name: "Raid Crate 1", rarity: "EXCLUSIVE", val: "200", n: 200 },
-            { name: "Raid Crate 2", rarity: "EXCLUSIVE", val: "100", n: 100 },
-            { name: "Exclusive Crate 1", rarity: "EXCLUSIVE", val: "300", n: 300 },
-            { name: "Exclusive Crate 2", rarity: "EXCLUSIVE", val: "180", n: 180 },
-            { name: "Wubbox Crate", rarity: "EXCLUSIVE", val: "50", n: 50 },
-            { name: "Super Crate", rarity: "EXCLUSIVE", val: "10", n: 10 },
-            { name: "Admin Abuse Crate 1", rarity: "EXCLUSIVE", val: "600", n: 600 },
-            { name: "Admin Abuse Crate 2", rarity: "EXCLUSIVE", val: "300", n: 300 },
-            { name: "Admin Abuse Crate 3", rarity: "EXCLUSIVE", val: "250", n: 250 },
-            { name: "Admin Abuse Crate 4", rarity: "EXCLUSIVE", val: "200", n: 200 },
-            { name: "April Fools Crate", rarity: "EXCLUSIVE", val: "100", n: 100 },
-            { name: "The Alliance Crate", rarity: "EXCLUSIVE", val: "250", n: 250 },
-            { name: "Toilet Crate", rarity: "EXCLUSIVE", val: "10", n: 10 }
-        ];
-
-
-        let currentCategory = 'units';
-        let activeRarity = null;
-
-        function setCategory(cat) {
-            currentCategory = cat;
-            activeRarity = null;
-            document.getElementById('unitsTab').classList.toggle('active', cat === 'units');
-            document.getElementById('itemsTab').classList.toggle('active', cat === 'items');
-            const data = cat === 'units' ? units : items;
-            const rarities = [...new Set(data.map(d => d.rarity))];
-            const filterBar = document.getElementById('rarityFilters');
-            filterBar.innerHTML = rarities.map(r => `<div class="filter-chip" id="chip-${r}" onclick="setRarity('${r}')">${r}</div>`).join('');
-            render([]);
-            document.getElementById('grid').innerHTML = `<div class="empty-msg">Select a Rarity above</div>`;
-        }
-
-        function setRarity(r) {
-            activeRarity = r;
-            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-            const chip = document.getElementById(`chip-${r}`);
-            if(chip) chip.classList.add('active');
-            filterData();
-        }
-
-        function filterData() {
-            if (!activeRarity) return;
-            const query = document.getElementById('search').value.toLowerCase();
-            const data = currentCategory === 'units' ? units : items;
-            const filtered = data.filter(d => d.rarity === activeRarity && d.name.toLowerCase().includes(query));
-            render(filtered);
-        }
-
-        function render(list) {
-            const grid = document.getElementById('grid');
-            if (list.length === 0 && activeRarity) { grid.innerHTML = `<div class="empty-msg">None found</div>`; return; }
-            grid.innerHTML = list.map(u => `
-                <div class="unit-card" style="border-top-color: var(--${u.rarity.toLowerCase()})">
-                    <span class="rarity-label ${u.rarity}">${u.rarity}</span>
-                    <div class="unit-name">${u.name}</div>
-                    <div class="unit-val">${u.val}</div>
-                    ${u.note ? `<div class="unit-notes">${u.note}</div>` : ''}
+            container.innerHTML = items.map(item => `
+                <div class="value-card ${window.currentCat === 'shiny' ? 'rarity-SHINY' : 'rarity-' + item.rarity}">
+                    <div class="item-name">${item.name}</div>
+                    <div class="item-note">${item.note}</div>
+                    <div class="value-box">${item.value}</div>
                 </div>
             `).join('');
         }
 
-        function populateSelectors() {
-            const all = [...units, ...items].sort((a,b) => a.name.localeCompare(b.name));
-            const options = all.map(d => `<option value="${d.n}">${d.name}</option>`).join('');
-            document.getElementById('userUnit').innerHTML = '<option value="0">Select Unit...</option>' + options;
-            document.getElementById('theirUnit').innerHTML = '<option value="0">Select Unit...</option>' + options;
-        }
-
-        function calculateTrade() {
-            const v1 = parseFloat(document.getElementById('userUnit').value);
-            const v2 = parseFloat(document.getElementById('theirUnit').value);
-            const banner = document.getElementById('resultBanner');
-            document.getElementById('userVal').innerText = v1.toLocaleString();
-            document.getElementById('theirVal').innerText = v2.toLocaleString();
-            if(v1 === 0 || v2 === 0) { banner.style.display = 'none'; return; }
-            banner.style.display = 'block';
-            const diff = v2 - v1;
-            const threshold = v1 * 0.15; 
-            if (diff > threshold) { banner.innerText = `WIN (+${diff.toLocaleString()})`; banner.style.background = 'var(--win)'; }
-            else if (diff < -threshold) { banner.innerText = `LOSS (${diff.toLocaleString()})`; banner.style.background = 'var(--loss)'; }
-            else { banner.innerText = "FAIR TRADE"; banner.style.background = 'var(--fair)'; }
-        }
-
-        populateSelectors();
-        setCategory('units');
+        // Default Load
+        showCategory('units');
     </script>
 </body>
 </html>
