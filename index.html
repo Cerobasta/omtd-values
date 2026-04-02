@@ -6,6 +6,15 @@
     <title>OMTD Unofficial Value List</title>
     <style>
         :root {
+        .empty-msg { 
+            grid-column: 1 / -1; 
+            text-align: center; 
+            padding: 60px 20px; 
+            color: #8b949e; 
+            font-style: italic; 
+            font-size: 0.9rem;
+        }
+            
         .intro-credits { 
             background: #1c2128; 
             border: 1px solid #30363d; 
@@ -537,18 +546,22 @@ me: "Rob", rarity: "SECRET", val: "80-90k", n: 85000, note: "Unstable" },
         let currentCategory = 'units';
         let activeRarity = null;
 
-        function setCategory(cat) {
+                function setCategory(cat) {
             currentCategory = cat;
             activeRarity = null;
             document.getElementById('unitsTab').classList.toggle('active', cat === 'units');
             document.getElementById('itemsTab').classList.toggle('active', cat === 'items');
+            
             const data = cat === 'units' ? units : items;
             const rarities = [...new Set(data.map(d => d.rarity))];
             const filterBar = document.getElementById('rarityFilters');
+            
             filterBar.innerHTML = rarities.map(r => `<div class="filter-chip" id="chip-${r}" onclick="setRarity('${r}')">${r}</div>`).join('');
-            render([]);
-            document.getElementById('grid').innerHTML = `<div class="empty-msg">Select a Rarity above</div>`;
+            
+            // This adds the "Now select a rarity" text when you swap tabs
+            document.getElementById('grid').innerHTML = `<div class="empty-msg">Now select a rarity (e.g. ${rarities[0]})</div>`;
         }
+
 
         function setRarity(r) {
             activeRarity = r;
@@ -566,18 +579,33 @@ me: "Rob", rarity: "SECRET", val: "80-90k", n: 85000, note: "Unstable" },
             render(filtered);
         }
 
-        function render(list) {
+                function render(list) {
             const grid = document.getElementById('grid');
-            if (list.length === 0 && activeRarity) { grid.innerHTML = `<div class="empty-msg">None found in this category</div>`; return; }
-            grid.innerHTML = list.map(u => `
-                <div class="unit-card" style="border-top-color: var(--${u.rarity.toLowerCase()})">
-                    <span class="rarity-label ${u.rarity}">${u.rarity}</span>
-                    <div class="unit-name">${u.name}</div>
-                    <div class="unit-val">${u.val}</div>
-                    ${u.note ? `<div class="unit-notes">${u.note}</div>` : ''}
-                </div>
-            `).join('');
+            
+            // This shows the message if a search or filter has no results
+            if (list.length === 0 && activeRarity) {
+                grid.innerHTML = `<div class="empty-msg">No results found in ${activeRarity}</div>`;
+                return;
+            }
+
+            let html = '';
+            for (let i = 0; i < list.length; i++) {
+                const u = list[i];
+                const displayVal = (typeof u.val === 'number') ? u.val.toLocaleString() : u.val;
+                const noteContent = u.note ? `<div class="unit-notes">${u.note}</div>` : '';
+                
+                html += `
+                    <div class="unit-card" style="border-top-color: var(--${u.rarity.toLowerCase()})">
+                        <span class="rarity-label ${u.rarity}">${u.rarity}</span>
+                        <div class="unit-name">${u.name}</div>
+                        <div class="unit-val">${displayVal} Gems</div>
+                        ${noteContent}
+                    </div>
+                `;
+            }
+            grid.innerHTML = html;
         }
+
 
         function populateSelectors() {
             const all = [...units, ...items].sort((a,b) => a.name.localeCompare(b.name));
