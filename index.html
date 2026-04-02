@@ -14,12 +14,12 @@
             --win: #4ade80;
             --loss: #f87171;
             --fair: #fbbf24;
-            /* Updated Rarity Colors */
+            /* Your Requested Rarity Colors */
             --legendary: #00ffff;      /* Cyan */
             --mythic: #ff0000;         /* Red */
             --exotic: #90ee90;         /* Light Green */
             --hero: #ffff00;           /* Yellow */
-            --exclusive: #da70d6;      /* Pinkish Purple (Orchid) */
+            --exclusive: #da70d6;      /* Pinkish Purple */
             --secret: #bf40bf;
             --divine: #ffffff; 
             --evo: #ffffff;
@@ -109,46 +109,127 @@
 
     <script>
         const units = [
-            { name: "Spinning Cat", rarity: "LEGENDARY", val: "1-5 Gems", n: 3, note: "UK/MG: TBA" },
-            { name: "Shiny Spinning Cat", rarity: "LEGENDARY", val: "30-40 Gems", n: 35, note: "UK/MG: TBA" },
-            { name: "Wazzup Ghostface", rarity: "LEGENDARY", val: "1-10 Gems", n: 5, note: "UK/MG: TBA" },
-            { name: "Shiny Wazzup Ghostface", rarity: "LEGENDARY", val: "15-30 Gems", n: 22.5, note: "UK/MG: TBA" },
-            { name: "Tralalero Tralala", rarity: "LEGENDARY", val: "5-10 Gems", n: 7.5, note: "UK: 50 Gems | MG: TBA" },
+            { name: "Spinning Cat", rarity: "LEGENDARY", val: "1-5 Gems", n: 3 },
+            { name: "Shiny Spinning Cat", rarity: "LEGENDARY", val: "30-40 Gems", n: 35 },
+            { name: "Wazzup Ghostface", rarity: "LEGENDARY", val: "1-10 Gems", n: 5 },
+            { name: "Shiny Wazzup Ghostface", rarity: "LEGENDARY", val: "15-30 Gems", n: 22.5 },
             { name: "Bus Puxlya", rarity: "MYTHIC", val: "15-20 Gems", n: 17.5 },
-            { name: "Shiny Bus Puxlya", rarity: "MYTHIC", val: "70-100 Gems", n: 85 },
-            { name: "Susie", rarity: "MYTHIC", val: "5-30 Gems", n: 17.5 },
-            { name: "Shiny Susie", rarity: "MYTHIC", val: "100 Gems", n: 100 },
             { name: "The Man Behind The Slaughter", rarity: "MYTHIC", val: "100 Gems", n: 100 },
-            { name: "Shiny TMBTS", rarity: "MYTHIC", val: "150-200 Gems", n: 175 },
-            { name: "Papyrus", rarity: "MYTHIC", val: "1-20 Gems", n: 10 },
-            { name: "Kissy Missy", rarity: "MYTHIC", val: "20-100 Gems", n: 60 },
-            { name: "Shiny Kissy Missy", rarity: "MYTHIC", val: "100 Gems", n: 100 },
-            { name: "Ink King", rarity: "MYTHIC", val: "5-10 Gems", n: 7.5 },
-            { name: "Shiny Ink King", rarity: "MYTHIC", val: "10-20 Gems", n: 15 },
-            { name: "Pixel Dino", rarity: "MYTHIC", val: "5-10 Gems", n: 7.5 },
-            { name: "Shiny Pixel Dino", rarity: "MYTHIC", val: "10-20 Gems", n: 15 },
-            { name: "Boneca Ambalabu", rarity: "MYTHIC", val: "50-100 Gems", n: 75 },
-            { name: "Speakerman", rarity: "MYTHIC", val: "1000-1500 Gems", n: 1250 },
-            { name: "Shedletsky", rarity: "MYTHIC", val: "10-20 Gems", n: 15 },
-            { name: "Shiny Shedletsky", rarity: "MYTHIC", val: "50 Gems", n: 50 },
             { name: "Purple Guy", rarity: "EXOTIC", val: "40-150 Gems", n: 95 },
-            { name: "Sans", rarity: "EXOTIC", val: "15-30 Gems", n: 22.5 },
-            { name: "Erik Cassel", rarity: "EXOTIC", val: "15-30 Gems", n: 22.5 },
-            { name: "Slenderman", rarity: "EXOTIC", val: "15-30 Gems", n: 22.5 },
-            { name: "Dr. Kleiner", rarity: "EXOTIC", val: "20-30 Gems", n: 25 },
-            { name: "Eye of Cthulhu", rarity: "EXOTIC", val: "400-600 Gems", n: 500 },
-            { name: "Ink Demon", rarity: "EXOTIC", val: "1000-1200 Gems", n: 1100 },
-            { name: "67 Brainrot", rarity: "EXOTIC", val: "700-1000 Gems", n: 850 },
-            { name: "Multiblade Skibidi", rarity: "EXOTIC", val: "700-1000 Gems", n: 850 },
             { name: "CatNap", rarity: "SECRET", val: "5-6k", n: 5500, note: "Stable" },
-            { name: "Kuzvelia", rarity: "SECRET", val: "4-5k", n: 4500 },
-            { name: "Disco Freddy", rarity: "SECRET", val: "5-6k", n: 5500 },
-            { name: "Blackhat", rarity: "SECRET", val: "9k+", n: 9000, note: "Slowly Dropping" },
-            { name: "Bendy Statue", rarity: "SECRET", val: "45-50k+", n: 47500, note: "Slowly Rising" },
-            { name: "Scp-067", rarity: "SECRET", val: "18k", n: 18000 },
-            { name: "Rob", rarity: "SECRET", val: "80-90k", n: 85000, note: "Unstable" },
             { name: "Bill Cipher", rarity: "DIVINE", val: "6k-8k+", n: 7000 },
-            { name: "One", rarity: "DIVINE", val: "20k+", n: 20000 },
+            { name: "D1M3NS10N4L", rarity: "HERO", val: "2k-3k+", n: 2500 },
+            { name: "Cloudy", rarity: "EXCLUSIVE", val: "35k", n: 35000 }
+            // Add other units here following the same pattern
+        ];
+
+        const items = [
+            { name: "Tix", rarity: "COMMON", val: 1, n: 1 },
+            { name: "Leaf", rarity: "COMMON", val: 1, n: 1 },
+            { name: "Freddy mask", rarity: "RARE", val: 3, n: 3 },
+            { name: "Sword", rarity: "RARE", val: 3, n: 3 },
+            { name: "Cloth", rarity: "EPIC", val: 5, n: 5 },
+            { name: "Traffic Cone", rarity: "EPIC", val: 4, n: 4 },
+            { name: "Yarn", rarity: "LEGENDARY", val: 20, n: 20 },
+            { name: "Endo Body", rarity: "LEGENDARY", val: 15, n: 15 },
+            { name: "Hammer", rarity: "LEGENDARY", val: 25, n: 25 },
+            { name: "Brainrot Rune", rarity: "LEGENDARY", val: 200, n: 200 },
+            { name: "67 Rune", rarity: "MYTHIC", val: 4500, n: 4500 },
+            { name: "Bow tie", rarity: "EXOTIC", val: 50, n: 50 },
+            { name: "Bucket O’ Paint", rarity: "EXOTIC", val: 500, n: 500, note: "Endless Pack" },
+            { name: "Golden Hat", rarity: "EXOTIC", val: 700, n: 700, note: "Endless Pack" },
+            { name: "Prototype Crate", rarity: "SECRET", val: "70k- OC", n: 70000 },
+            { name: "Huggy Wuggy Crate", rarity: "EXCLUSIVE", val: 400, n: 400 },
+            { name: "Classic Crate", rarity: "EXCLUSIVE", val: 150, n: 150 },
+            { name: "The Alliance Crate", rarity: "EXCLUSIVE", val: 250, n: 250 },
+            { name: "Admin Abuse Crate 1", rarity: "EXCLUSIVE", val: 600, n: 600 }
+        ];
+
+        let currentCategory = 'units';
+        let activeRarity = null;
+
+        function setCategory(cat) {
+            currentCategory = cat;
+            activeRarity = null;
+            document.getElementById('unitsTab').classList.toggle('active', cat === 'units');
+            document.getElementById('itemsTab').classList.toggle('active', cat === 'items');
+            const data = cat === 'units' ? units : items;
+            const rarities = [...new Set(data.map(d => d.rarity))];
+            const filterBar = document.getElementById('rarityFilters');
+            filterBar.innerHTML = rarities.map(r => `<div class="filter-chip" id="chip-${r}" onclick="setRarity('${r}')">${r}</div>`).join('');
+            render([]);
+            document.getElementById('grid').innerHTML = `<div class="empty-msg">Select a Rarity above</div>`;
+        }
+
+        function setRarity(r) {
+            activeRarity = r;
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+            const chip = document.getElementById(`chip-${r}`);
+            if(chip) chip.classList.add('active');
+            filterData();
+        }
+
+        function filterData() {
+            if (!activeRarity) return;
+            const query = document.getElementById('search').value.toLowerCase();
+            const data = currentCategory === 'units' ? units : items;
+            const filtered = data.filter(d => d.rarity === activeRarity && d.name.toLowerCase().includes(query));
+            render(filtered);
+        }
+
+        function render(list) {
+            const grid = document.getElementById('grid');
+            if (list.length === 0 && activeRarity) {
+                grid.innerHTML = `<div class="empty-msg">No results found in ${activeRarity}</div>`;
+                return;
+            }
+            
+            let html = '';
+            for (let i = 0; i < list.length; i++) {
+                const u = list[i];
+                const displayVal = (typeof u.val === 'number') ? u.val.toLocaleString() : u.val;
+                const noteContent = u.note ? `<div class="unit-notes">${u.note}</div>` : '';
+                
+                html += `
+                    <div class="unit-card" style="border-top-color: var(--${u.rarity.toLowerCase()})">
+                        <span class="rarity-label ${u.rarity}">${u.rarity}</span>
+                        <div class="unit-name">${u.name}</div>
+                        <div class="unit-val">${displayVal} Gems</div>
+                        ${noteContent}
+                    </div>
+                `;
+            }
+            grid.innerHTML = html;
+        }
+
+        function populateSelectors() {
+            const all = [...units, ...items].sort((a,b) => a.name.localeCompare(b.name));
+            const options = all.map(d => `<option value="${d.n}">${d.name}</option>`).join('');
+            document.getElementById('userUnit').innerHTML = '<option value="0">Select Unit...</option>' + options;
+            document.getElementById('theirUnit').innerHTML = '<option value="0">Select Unit...</option>' + options;
+        }
+
+        function calculateTrade() {
+            const v1 = parseFloat(document.getElementById('userUnit').value);
+            const v2 = parseFloat(document.getElementById('theirUnit').value);
+            const banner = document.getElementById('resultBanner');
+            document.getElementById('userVal').innerText = v1.toLocaleString();
+            document.getElementById('theirVal').innerText = v2.toLocaleString();
+            if(v1 === 0 || v2 === 0) { banner.style.display = 'none'; return; }
+            banner.style.display = 'block';
+            const diff = v2 - v1;
+            const threshold = v1 * 0.15; 
+            if (diff > threshold) { banner.innerText = `WIN (+${diff.toLocaleString()})`; banner.style.background = 'var(--win)'; }
+            else if (diff < -threshold) { banner.innerText = `LOSS (${diff.toLocaleString()})`; banner.style.background = 'var(--loss)'; }
+            else { banner.innerText = "FAIR TRADE"; banner.style.background = 'var(--fair)'; }
+        }
+
+        populateSelectors();
+        setCategory('units');
+    </script>
+</body>
+</html>
+VINE", val: "20k+", n: 20000 },
             { name: "D1M3NS10N4L", rarity: "HERO", val: "2k-3k+", n: 2500 },
             { name: "D00MBRINGER", rarity: "HERO", val: "2.5k-3K+", n: 2750 },
             { name: "Ink King Overlord", rarity: "HERO", val: "3k-4k+", n: 3500 },
