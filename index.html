@@ -384,7 +384,6 @@ function setRarity(r) {
 </body>
 </html>
 <script>
- val: "2000", note: "Dropping" },
             { name: "Leprechaun", rarity: "EXCLUSIVE", val: "100", note: "" },
             { name: "Wubbox (Ex)", rarity: "EXCLUSIVE", val: "18k", note: "" },
             { name: "Jason", rarity: "EXCLUSIVE", val: "200", note: "" },
@@ -465,7 +464,6 @@ function setRarity(r) {
     </script>
 </body>
 </html>
-));
     <script>
             document.getElementById(`chip-${r}`).classList.add('active');
             filterData();
@@ -519,8 +517,6 @@ function setRarity(r) {
 </body>
 </html>
     <script>
-me: "Rob", rarity: "SECRET", val: "80-90k", n: 85000, note: "Unstable" },
-
             // DIVINE
             { name: "Bill Cipher", rarity: "DIVINE", val: "6k-8k+", n: 7000 },
             { name: "One", rarity: "DIVINE", val: "20k+", n: 20000 },
@@ -605,18 +601,61 @@ me: "Rob", rarity: "SECRET", val: "80-90k", n: 85000, note: "Unstable" },
             { name: "Mr Robux (Evo)", rarity: "EVO", val: "25k-35k Gems", n: 30000 }
         ];
 
-        const items = [
-            { name: "Tix", rarity: "COMMON", val: "1", n: 1 },
-            { name: "Leaf", rarity: "COMMON", val: "1", n: 1 },
-            { name: "Freddy mask", rarity: "RARE", val: "3", n: 3 },
-            { name: "Sword", rarity: "RARE", val: "3", n: 3 },
-            { name: "Yarn", rarity: "LEGENDARY", val: "20", n: 20 },
-            { name: "67 Rune", rarity: "MYTHIC", val: "2k", n: 2000 },
-            { name: "Prototype Crate", rarity: "SECRET", val: "70k", n: 70000 },
-            { name: "Admin Abuse Crate 1", rarity: "EXCLUSIVE", val: "600", n: 600 },
-            { name: "The Alliance Crate", rarity: "EXCLUSIVE", val: "250", n: 250 }
-        ];
+                const items = [
+            // COMMON
+            { name: "Tix", rarity: "COMMON", val: 1, n: 1 },
+            { name: "Leaf", rarity: "COMMON", val: 1, n: 1 },
 
+            // RARE
+            { name: "Freddy mask", rarity: "RARE", val: 3, n: 3 },
+            { name: "Sword", rarity: "RARE", val: 3, n: 3 },
+
+            // EPIC
+            { name: "Cloth", rarity: "EPIC", val: 5, n: 5 },
+            { name: "Traffic Cone", rarity: "EPIC", val: 4, n: 4 },
+
+            // LEGENDARY
+            { name: "Yarn", rarity: "LEGENDARY", val: 20, n: 20 },
+            { name: "Endo Body", rarity: "LEGENDARY", val: 15, n: 15 },
+            { name: "Hammer", rarity: "LEGENDARY", val: 25, n: 25 },
+            { name: "Brainrot Rune", rarity: "LEGENDARY", val: 200, n: 200 },
+
+            // MYTHIC
+            { name: "67 Rune", rarity: "MYTHIC", val: 4500, n: 4500 },
+
+            // EXOTIC
+            { name: "Bow tie", rarity: "EXOTIC", val: 50, n: 50 },
+            { name: "Bucket O’ Paint", rarity: "EXOTIC", val: 500, n: 500, note: "Endless Pack" },
+            { name: "Golden Hat", rarity: "EXOTIC", val: 700, n: 700, note: "Endless Pack" },
+
+            // SECRET
+            { name: "Prototype Crate", rarity: "SECRET", val: "70k- OC", n: 70000 },
+
+            // EXCLUSIVE
+            { name: "Huggy Wuggy Crate", rarity: "EXCLUSIVE", val: 400, n: 400 },
+            { name: "Classic Crate", rarity: "EXCLUSIVE", val: 150, n: 150 },
+            { name: "Present", rarity: "EXCLUSIVE", val: 20, n: 20 },
+            { name: "Christmas Crate", rarity: "EXCLUSIVE", val: 200, n: 200 },
+            { name: "Deltarune Crate", rarity: "EXCLUSIVE", val: 150, n: 150 },
+            { name: "Playtime Crate", rarity: "EXCLUSIVE", val: 100, n: 100 },
+            { name: "Slap Crate", rarity: "EXCLUSIVE", val: 100, n: 100 },
+            { name: "Ultrakill Crate", rarity: "EXCLUSIVE", val: 10, n: 10 },
+            { name: "Evolution Crate", rarity: "EXCLUSIVE", val: 25, n: 25 },
+            { name: "Raid Crate 1", rarity: "EXCLUSIVE", val: 200, n: 200 },
+            { name: "Raid Crate 2", rarity: "EXCLUSIVE", val: 100, n: 100 },
+            { name: "Exclusive Crate 1", rarity: "EXCLUSIVE", val: 300, n: 300 },
+            { name: "Exclusive Crate 2", rarity: "EXCLUSIVE", val: 180, n: 180 },
+            { name: "Wubbox Crate", rarity: "EXCLUSIVE", val: 50, n: 50 },
+            { name: "Super Crate", rarity: "EXCLUSIVE", val: 10, n: 10 },
+            { name: "Admin Abuse Crate 1", rarity: "EXCLUSIVE", val: 600, n: 600 },
+            { name: "Admin Abuse Crate 2", rarity: "EXCLUSIVE", val: 300, n: 300 },
+            { name: "Admin Abuse Crate 3", rarity: "EXCLUSIVE", val: 250, n: 250 },
+            { name: "Admin Abuse Crate 4", rarity: "EXCLUSIVE", val: 200, n: 200 },
+            { name: "April Fools Crate", rarity: "EXCLUSIVE", val: 100, n: 100 },
+            { name: "The Alliance Crate", rarity: "EXCLUSIVE", val: 250, n: 250 },
+            { name: "Toilet Crate", rarity: "EXCLUSIVE", val: 10, n: 10 }
+        ];
+        
         let currentCategory = 'units';
         let activeRarity = null;
 
@@ -757,7 +796,6 @@ me: "Rob", rarity: "SECRET", val: "80-90k", n: 85000, note: "Unstable" },
         populateSelectors();
         setCategory('units');
 
-VINE", val: "20k+", n: 20000 },
             { name: "D1M3NS10N4L", rarity: "HERO", val: "2k-3k+", n: 2500 },
             { name: "D00MBRINGER", rarity: "HERO", val: "2.5k-3K+", n: 2750 },
             { name: "Ink King Overlord", rarity: "HERO", val: "3k-4k+", n: 3500 },
