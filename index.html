@@ -316,19 +316,25 @@
         }
 
         function render(list) {
+    cons        function render(list) {
             const grid = document.getElementById('grid');
             if (list.length === 0 && activeRarity) {
                 grid.innerHTML = `<div class="empty-msg">No results found in ${activeRarity}</div>`;
                 return;
             }
-            grid.innerHTML = list.map(u => `
-                <div class="unit-card" style="border-top-color: var(--${u.rarity.toLowerCase()})">
-                    <span class="rarity-label ${u.rarity}">${u.rarity}</span>
-                    <div class="unit-name">${u.name}</div>
-                    <div class="unit-val">${u.val.toLocaleString()} Gems</div>
-                </div>
-            `).join('');
+            grid.innerHTML = list.map(u => {
+                const displayVal = typeof u.val === 'number' ? u.val.toLocaleString() : u.val;
+                return `
+                    <div class="unit-card" style="border-top-color: var(--${u.rarity.toLowerCase()})">
+                        <span class="rarity-label ${u.rarity}">${u.rarity}</span>
+                        <div class="unit-name">${u.name}</div>
+                        <div class="unit-val">${displayVal} Gems</div>
+                        ${u.note ? `<div class="unit-notes">${u.note}</div>` : ''}
+                    </div>
+                `;
+            }).join('');
         }
+
 
         // Calculator Logic
         function populateSelectors() {
