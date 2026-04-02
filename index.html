@@ -21,8 +21,10 @@
             --common: #bdc3c7;
             --rare: #27ae60;
             --epic: #8e44ad;
-            /* New Shiny Color */
             --shiny: #ffd700; 
+            --win: #2ecc71;
+            --loss: #e74c3c;
+            --fair: #f1c40f;
         }
 
         body {
@@ -87,9 +89,9 @@
             box-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
         }
 
-        /* Specific style for Shiny Category button when active */
         #btn-shiny.active {
             background: var(--shiny);
+            color: var(--primary);
             box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
         }
 
@@ -97,6 +99,57 @@
             max-width: 1000px;
             margin: 0 auto;
         }
+
+        /* Calculator Styles */
+        .calc-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            background: var(--secondary);
+            padding: 25px;
+            border-radius: 20px;
+            border: 1px solid #333;
+        }
+
+        .calc-side {
+            background: rgba(0,0,0,0.2);
+            padding: 15px;
+            border-radius: 15px;
+        }
+
+        .calc-side h3 { margin-top: 0; color: var(--accent); }
+        
+        .calc-input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        label { display: block; font-size: 0.8em; margin-bottom: 5px; color: #888; }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background: #0f0f1a;
+            color: white;
+            font-weight: bold;
+        }
+
+        .result-banner {
+            grid-column: 1 / -1;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 1.5em;
+            font-weight: 900;
+            margin-top: 10px;
+            background: #111;
+            border: 2px solid #333;
+        }
+
+        .res-win { color: var(--win); border-color: var(--win); }
+        .res-loss { color: var(--loss); border-color: var(--loss); }
+        .res-fair { color: var(--fair); border-color: var(--fair); }
 
         #list-container {
             display: grid;
@@ -130,7 +183,6 @@
         .rarity-COMMON { border-top-color: var(--common); }
         .rarity-RARE { border-top-color: var(--rare); }
         .rarity-EPIC { border-top-color: var(--epic); }
-        /* Shiny border color */
         .rarity-SHINY { border-top-color: var(--shiny); border-top-width: 6px; }
 
         .item-name { font-size: 1.2em; font-weight: 800; margin-bottom: 5px; }
@@ -149,9 +201,12 @@
             color: var(--shiny);
         }
 
-        .hidden { display: none; }
-        
+        .hidden { display: none !important; }
         .empty-msg { grid-column: 1/-1; padding: 50px; color: #555; }
+
+        @media (max-width: 600px) {
+            .calc-container { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -169,6 +224,7 @@
             <button onclick="showCategory('units')" id="btn-units" class="active">Clear Units</button>
             <button onclick="showCategory('shiny')" id="btn-shiny">Shiny Units</button>
             <button onclick="showCategory('items')" id="btn-items">Items</button>
+            <button onclick="showCategory('calc')" id="btn-calc">Calculator</button>
         </div>
 
         <div id="unit-rarities" class="rarity-nav">
@@ -184,8 +240,8 @@
 
         <div id="shiny-rarities" class="rarity-nav hidden">
             <button class="r-btn" onclick="filterRarity('SECRET', this)">Secret</button>
-            <button class="r-btn" onclick="filterRarity('DIVINE', this)">Divine</button>
             <button class="r-btn" onclick="filterRarity('HERO', this)">Hero</button>
+            <button class="r-btn" onclick="filterRarity('DIVINE', this)">Divine</button>
         </div>
 
         <div id="item-rarities" class="rarity-nav hidden">
@@ -197,6 +253,28 @@
             <button class="r-btn" onclick="filterRarity('EXOTIC', this)">Exotic</button>
             <button class="r-btn" onclick="filterRarity('SECRET', this)">Secret</button>
             <button class="r-btn" onclick="filterRarity('EXCLUSIVE', this)">Exclusive</button>
+        </div>
+
+        <div id="calculator-section" class="hidden">
+            <div class="calc-container">
+                <div class="calc-side">
+                    <h3>YOUR OFFER</h3>
+                    <div class="calc-input-group">
+                        <label>Total Value (Gems)</label>
+                        <input type="number" id="your-val" placeholder="0" oninput="calculateTrade()">
+                    </div>
+                </div>
+                <div class="calc-side">
+                    <h3>THEIR OFFER</h3>
+                    <div class="calc-input-group">
+                        <label>Total Value (Gems)</label>
+                        <input type="number" id="their-val" placeholder="0" oninput="calculateTrade()">
+                    </div>
+                </div>
+                <div id="trade-result" class="result-banner">
+                    Enter values to see result
+                </div>
+            </div>
         </div>
 
         <div id="list-container"></div>
@@ -267,7 +345,6 @@
                 { name: "Builder", rarity: "EXCLUSIVE", value: "3500+ Gems", note: "" },
                 { name: "Boxy Boo", rarity: "EXCLUSIVE", value: "5-6k Gems", note: "" },
                 { name: "Skeleton King", rarity: "EXCLUSIVE", value: "1.5-2k Gems", note: "" },
-                { name: "Ruined Huggy", rarity: "EXCLUSIVE", value: "25k-35k Gems", note: "" },
                 { name: "Peppino", rarity: "EXCLUSIVE", value: "1.5-2k Gems", note: "" },
                 { name: "Mutated One", rarity: "EXCLUSIVE", value: "200-300 Gems", note: "Gems" },
                 { name: "Huggy Wuggy", rarity: "EXCLUSIVE", value: "15k-25k Gems", note: "" },
@@ -280,13 +357,13 @@
                 { name: "8-bit", rarity: "EXCLUSIVE", value: "6-7k Gems", note: "" },
                 { name: "Homer", rarity: "EXCLUSIVE", value: "500-700 Gems", note: "" },
                 { name: "Bob", rarity: "EXCLUSIVE", value: "4-4.5k Gems", note: "" },
-                { name: "Mr Bling", rarity: "EXCLUSIVE", value: "28-30k Gems", note: "" },
+                { name: "Mr Bling", rarity: "EXCLUSIVE", value: "25-30k Gems", note: "" },
                 { name: "Hollow", rarity: "EXCLUSIVE", value: "3k Gems", note: "" },
                 { name: "G-man", rarity: "EXCLUSIVE", value: "1.4k Gems", note: "" },
                 { name: "Ink Pepper", rarity: "EXCLUSIVE", value: "500-700 Gems", note: "" },
                 { name: "Metal Sonic", rarity: "EXCLUSIVE", value: "1k Gems", note: "" },
                 { name: "Baller", rarity: "EXCLUSIVE", value: "6k Gems", note: "" },
-                { name: "Mr Robux (Ex)", rarity: "EXCLUSIVE", value: "25-35k Gems", note: "" },
+                { name: "Mr Robux (Ex)", rarity: "EXCLUSIVE", value: "30-35k Gems", note: "" },
                 { name: "V1", rarity: "EXCLUSIVE", value: "4k Gems", note: "" },
                 { name: "Watercooler", rarity: "EXCLUSIVE", value: "2-3k Gems", note: "" },
                 { name: "Gabriel", rarity: "EXCLUSIVE", value: "1.5k-2k+ Gems", note: "" },
@@ -310,10 +387,18 @@
                 { name: "Garrder", rarity: "EVO", value: "30k-50k Gems", note: "" },
                 { name: "Mr Robux (Evo)", rarity: "EVO", value: "25k-35k Gems", note: "" }
             ],
-            // SHINY SECTION: You can add your shiny units here
             shiny: [
-                { name: "Shiny Spinning Cat", rarity: "LEGENDARY", value: "30-40 Gems", note: "Shiny" },
-                { name: "Shiny Wazzup Ghostface", rarity: "LEGENDARY", value: "15-30 Gems", note: "Shiny" }
+                { name: "Shiny Bill Cipher", rarity: "DIVINE", value: "17k+ Gems", note: "" },
+                { name: "Shiny One", rarity: "DIVINE", value: "50k+ Gems", note: "" },
+                { name: "Shiny D1M3NS10N4L", rarity: "HERO", value: "7-8k+ Gems", note: "" },
+                { name: "Shiny D00MBRINGER", rarity: "HERO", value: "8k+ Gems", note: "" },
+                { name: "Shiny Ink King Overlord", rarity: "HERO", value: "9-10k+ Gems", note: "" },
+                { name: "Shiny Beast Bendy", rarity: "HERO", value: "9k+ Gems", note: "" },
+                { name: "Shiny Catnap", rarity: "SECRET", value: "7-8k Gems", note: "" },
+                { name: "Shiny Kuzvelia", rarity: "SECRET", value: "6-7.2k Gems", note: "" },
+                { name: "Shiny Disco Freddy", rarity: "SECRET", value: "8-10k Gems", note: "" },
+                { name: "Shiny Blackhat", rarity: "SECRET", value: "15k+ Gems", note: "" },
+                { name: "Shiny Eduardo", rarity: "SECRET", value: "N/A", note: "" }
             ],
             items: [
                 { name: "Tix", rarity: "COMMON", value: "1", note: "Currency" },
@@ -328,44 +413,58 @@
                 { name: "67 Rune", rarity: "MYTHIC", value: "8000", note: "Rune" },
                 { name: "Bow Tie", rarity: "EXOTIC", value: "50", note: "Accessory" },
                 { name: "Prototype Crate", rarity: "SECRET", value: "70K+", note: "Accessory" },
-                { name: "Huggy Wuggy Crate", rarity: "EXCLUSIVE", value: 400, note: "" },
-                { name: "Classic Crate", rarity: "EXCLUSIVE", value: 150, note: "" },
-                { name: "Present", rarity: "EXCLUSIVE", value: 20, note: "" },
-                { name: "Christmas Crate", rarity: "EXCLUSIVE", value: 200, note: "" },
-                { name: "Deltarune Crate", rarity: "EXCLUSIVE", value: 150, note: "" },
-                { name: "Playtime Crate", rarity: "EXCLUSIVE", value: 100, note: "" },
-                { name: "Slap Crate", rarity: "EXCLUSIVE", value: 100, note: "" },
-                { name: "Ultrakill Crate", rarity: "EXCLUSIVE", value: 10, note: "" },
-                { name: "Evolution Crate", rarity: "EXCLUSIVE", value: 25, note: "" },
-                { name: "Raid Crate 1", rarity: "EXCLUSIVE", value: 200, note: "" },
-                { name: "Raid Crate 2", rarity: "EXCLUSIVE", value: 100, note: "" },
-                { name: "Exclusive Crate 1", rarity: "EXCLUSIVE", value: 300, note: "" },
-                { name: "Exclusive Crate 2", rarity: "EXCLUSIVE", value: 180, note: "" },
-                { name: "Wubbox Crate", rarity: "EXCLUSIVE", value: 50, note: "" },
-                { name: "Super Crate", rarity: "EXCLUSIVE", value: 10, note: "" },
-                { name: "Admin Abuse Crate 1", rarity: "EXCLUSIVE", value: 600, note: "" },
-                { name: "Admin Abuse Crate 2", rarity: "EXCLUSIVE", value: 300, note: "" },
-                { name: "Admin Abuse Crate 3", rarity: "EXCLUSIVE", value: 250, note: "" },
-                { name: "Admin Abuse Crate 4", rarity: "EXCLUSIVE", value: 200, note: "" },
-                { name: "April Fools Crate", rarity: "EXCLUSIVE", value: 100, note: "" },
-                { name: "The Alliance Crate", rarity: "EXCLUSIVE", value: 250, note: "" },
-                { name: "Toilet Crate", rarity: "EXCLUSIVE", value: 10, note: "" }
+                { name: "Huggy Wuggy Crate", rarity: "EXCLUSIVE", value: "400", note: "" },
+                { name: "Classic Crate", rarity: "EXCLUSIVE", value: "150", note: "" },
+                { name: "Present", rarity: "EXCLUSIVE", value: "20", note: "" },
+                { name: "Christmas Crate", rarity: "EXCLUSIVE", value: "200", note: "" },
+                { name: "Deltarune Crate", rarity: "EXCLUSIVE", value: "150", note: "" },
+                { name: "Playtime Crate", rarity: "EXCLUSIVE", value: "100", note: "" },
+                { name: "Slap Crate", rarity: "EXCLUSIVE", value: "100", note: "" },
+                { name: "Ultrakill Crate", rarity: "EXCLUSIVE", value: "10", note: "" },
+                { name: "Evolution Crate", rarity: "EXCLUSIVE", value: "25", note: "" },
+                { name: "Raid Crate 1", rarity: "EXCLUSIVE", value: "200", note: "" },
+                { name: "Raid Crate 2", rarity: "EXCLUSIVE", value: "100", note: "" },
+                { name: "Exclusive Crate 1", rarity: "EXCLUSIVE", value: "300", note: "" },
+                { name: "Exclusive Crate 2", rarity: "EXCLUSIVE", value: "180", note: "" },
+                { name: "Wubbox Crate", rarity: "EXCLUSIVE", value: "50", note: "" },
+                { name: "Super Crate", rarity: "EXCLUSIVE", value: "10", note: "" },
+                { name: "Admin Abuse Crate 1", rarity: "EXCLUSIVE", value: "600", note: "" },
+                { name: "Admin Abuse Crate 2", rarity: "EXCLUSIVE", value: "300", note: "" },
+                { name: "Admin Abuse Crate 3", rarity: "EXCLUSIVE", value: "250", note: "" },
+                { name: "Admin Abuse Crate 4", rarity: "EXCLUSIVE", value: "200", note: "" },
+                { name: "April Fools Crate", rarity: "EXCLUSIVE", value: "100", note: "" },
+                { name: "The Alliance Crate", rarity: "EXCLUSIVE", value: "250", note: "" },
+                { name: "Toilet Crate", rarity: "EXCLUSIVE", value: "10", note: "" }
             ]
         };
 
         function showCategory(cat) {
-            document.getElementById('btn-units').className = (cat === 'units') ? 'active' : '';
-            document.getElementById('btn-shiny').className = (cat === 'shiny') ? 'active' : '';
-            document.getElementById('btn-items').className = (cat === 'items') ? 'active' : '';
+            // Update main button states
+            const buttons = ['units', 'shiny', 'items', 'calc'];
+            buttons.forEach(b => {
+                document.getElementById('btn-' + b).className = (cat === b) ? 'active' : '';
+            });
             
-            document.getElementById('unit-rarities').className = (cat === 'units') ? 'rarity-nav' : 'hidden';
-            document.getElementById('shiny-rarities').className = (cat === 'shiny') ? 'rarity-nav' : 'hidden';
-            document.getElementById('item-rarities').className = (cat === 'items') ? 'rarity-nav' : 'hidden';
+            // Hide all rarity navs and the calculator
+            document.getElementById('unit-rarities').classList.add('hidden');
+            document.getElementById('shiny-rarities').classList.add('hidden');
+            document.getElementById('item-rarities').classList.add('hidden');
+            document.getElementById('calculator-section').classList.add('hidden');
+            document.getElementById('list-container').classList.remove('hidden');
+
+            // Show current category UI
+            if (cat === 'units') document.getElementById('unit-rarities').classList.remove('hidden');
+            if (cat === 'shiny') document.getElementById('shiny-rarities').classList.remove('hidden');
+            if (cat === 'items') document.getElementById('item-rarities').classList.remove('hidden');
             
-            window.currentCat = cat;
-            document.getElementById('list-container').innerHTML = '<div class="empty-msg">Select a Rarity to view the values.</div>';
-            
-            document.querySelectorAll('.r-btn').forEach(b => b.classList.remove('active'));
+            if (cat === 'calc') {
+                document.getElementById('calculator-section').classList.remove('hidden');
+                document.getElementById('list-container').classList.add('hidden');
+            } else {
+                window.currentCat = cat;
+                document.getElementById('list-container').innerHTML = '<div class="empty-msg">Select a Rarity to view the values.</div>';
+                document.querySelectorAll('.r-btn').forEach(b => b.classList.remove('active'));
+            }
         }
 
         function filterRarity(rarity, btn) {
@@ -387,6 +486,36 @@
                     <div class="value-box">${item.value}</div>
                 </div>
             `).join('');
+        }
+
+        // Calculator Logic
+        function calculateTrade() {
+            const yourVal = parseFloat(document.getElementById('your-val').value) || 0;
+            const theirVal = parseFloat(document.getElementById('their-val').value) || 0;
+            const resBox = document.getElementById('trade-result');
+
+            if (yourVal === 0 && theirVal === 0) {
+                resBox.innerText = "Enter values to see result";
+                resBox.className = "result-banner";
+                return;
+            }
+
+            const diff = theirVal - yourVal;
+            const percentDiff = (diff / yourVal) * 100;
+
+            if (yourVal === 0) { // Free items for you!
+                resBox.innerText = "MASSIVE WIN (Free!)";
+                resBox.className = "result-banner res-win";
+            } else if (percentDiff > 10) {
+                resBox.innerText = `WIN (+${Math.round(percentDiff)}%)`;
+                resBox.className = "result-banner res-win";
+            } else if (percentDiff < -10) {
+                resBox.innerText = `LOSS (${Math.round(percentDiff)}%)`;
+                resBox.className = "result-banner res-loss";
+            } else {
+                resBox.innerText = "FAIR TRADE";
+                resBox.className = "result-banner res-fair";
+            }
         }
 
         // Default Load
