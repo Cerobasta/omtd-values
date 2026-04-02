@@ -6,6 +6,27 @@
     <title>OMTD Unofficial Value List</title>
     <style>
         :root {
+        .intro-credits { 
+            background: #1c2128; 
+            border: 1px solid #30363d; 
+            border-radius: 12px; 
+            padding: 12px; 
+            margin: 15px 0; 
+            text-align: center; 
+        }
+
+        .pill { 
+            display: inline-block; 
+            background: #2d333b; 
+            color: var(--accent); 
+            padding: 3px 8px; 
+            border-radius: 15px; 
+            font-size: 0.75rem; 
+            font-weight: 600; 
+            margin: 2px; 
+            border: 1px solid #444c56; 
+        }
+            
             --bg: #0d1117;
             --card-bg: #161b22;
             --text: #c9d1d9;
@@ -110,10 +131,18 @@
 <body>
 
     <header>
-        <h1>OMTD Values</h1>
-        <div class="subtitle">Unofficial Value List</div>
-        <input type="text" id="search" class="search-box" placeholder="Search for a unit..." onkeyup="searchUnits()">
-    </header>
+    <h1>OMTD Values</h1>
+    <div class="intro-credits">
+        <div style="font-size: 0.7rem; color: #8b949e; margin-bottom: 8px;">Created and contributed by:</div>
+        <span class="pill">@SayHiLol</span> 
+        <span class="pill">@Cer</span> 
+        <span class="pill">@Affinity</span> 
+        <span class="pill">@Onest</span> 
+        <span class="pill">@Falledsyu</span>
+    </div>
+    <input type="text" id="search" class="search-box" placeholder="Search for a unit..." onkeyup="searchUnits()">
+</header>
+
 
     <div class="unit-grid" id="grid"></div>
 
