@@ -21,43 +21,39 @@
 
         body { background-color: var(--bg); color: var(--text); font-family: sans-serif; margin: 0; padding: 15px; padding-bottom: 80px; }
         header { text-align: center; padding: 10px 0; }
-        h1 { color: var(--header-text); margin: 0; font-size: 1.8rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        h1 { color: var(--header-text); margin: 0; font-size: 1.8rem; }
 
         .intro-credits { background: #1c2128; border: 1px solid #30363d; border-radius: 12px; padding: 12px; margin: 15px 0; text-align: center; }
         .pill { display: inline-block; background: #2d333b; color: var(--accent); padding: 3px 8px; border-radius: 15px; font-size: 0.75rem; font-weight: 600; margin: 2px; border: 1px solid #444c56; }
 
-        /* W/L Calculator */
-        .calc-container { background: #1c2128; border: 2px solid var(--accent); border-radius: 15px; padding: 15px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .calc-container { background: #1c2128; border: 2px solid var(--accent); border-radius: 15px; padding: 15px; margin-bottom: 25px; }
         .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
         .calc-box { background: var(--card-bg); padding: 10px; border-radius: 10px; text-align: center; }
-        select { width: 100%; background: #0d1117; color: white; border: 1px solid #30363d; padding: 8px; border-radius: 5px; font-size: 0.85rem; }
+        select { width: 100%; background: #0d1117; color: white; border: 1px solid #30363d; padding: 8px; border-radius: 5px; }
         .total-val { font-weight: bold; color: var(--win); font-size: 1.1rem; margin-top: 5px; }
-        .result-banner { text-align: center; margin-top: 15px; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 1.2rem; display: none; color: #000; }
+        .result-banner { text-align: center; margin-top: 15px; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 1.2rem; display: none; }
 
-        /* Navigation */
         .nav-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; }
-        .tab-btn { background: #21262d; border: 1px solid #30363d; color: white; padding: 12px; border-radius: 8px; cursor: pointer; flex: 1; font-weight: bold; transition: 0.2s; }
+        .tab-btn { background: #21262d; border: 1px solid #30363d; color: white; padding: 12px; border-radius: 8px; cursor: pointer; flex: 1; font-weight: bold; }
         .tab-btn.active { background: var(--accent); border-color: var(--accent); }
 
         .filter-bar { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 20px; }
-        .filter-chip { padding: 8px 14px; border-radius: 8px; background: #21262d; border: 1px solid #30363d; color: white; cursor: pointer; font-size: 0.7rem; font-weight: bold; text-transform: uppercase; transition: 0.2s; }
-        .filter-chip.active { border-color: white; background: #30363d; box-shadow: 0 0 8px rgba(255,255,255,0.2); }
+        .filter-chip { padding: 8px 14px; border-radius: 8px; background: #21262d; border: 1px solid #30363d; color: white; cursor: pointer; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; }
+        .filter-chip.active { border-color: white; background: #30363d; }
 
         .search-box { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #30363d; background: var(--card-bg); color: white; margin-bottom: 15px; box-sizing: border-box; }
 
-        /* Unit Grid */
-        .unit-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+        .unit-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
         .empty-msg { grid-column: 1 / -1; text-align: center; padding: 40px; color: #8b949e; font-style: italic; }
         
-        .unit-card { background: var(--card-bg); border-radius: 8px; padding: 12px; border-top: 4px solid #30363d; animation: fadeIn 0.3s ease forwards; opacity: 0; }
+        .unit-card { background: var(--card-bg); border-radius: 8px; padding: 12px; border-top: 4px solid #30363d; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        .unit-name { color: white; font-weight: bold; margin-bottom: 4px; font-size: 0.95rem; }
-        .unit-val { color: var(--win); font-weight: bold; font-size: 0.85rem; }
-        .unit-notes { font-size: 0.7rem; color: #8b949e; margin-top: 6px; line-height: 1.2; border-top: 1px solid #30363d; padding-top: 4px; }
-        .rarity-label { font-size: 8px; font-weight: bold; text-transform: uppercase; display: block; margin-bottom: 5px; }
+        .unit-name { color: white; font-weight: bold; margin-bottom: 5px; }
+        .unit-val { color: var(--win); font-weight: bold; font-size: 0.9rem; }
+        .unit-notes { font-size: 0.75rem; color: #8b949e; margin-top: 4px; }
+        .rarity-label { font-size: 9px; font-weight: bold; text-transform: uppercase; display: block; margin-bottom: 5px; }
 
-        /* Rarity Colors */
         .COMMON { color: var(--common); } .RARE { color: var(--rare); } .EPIC { color: var(--epic); }
         .LEGENDARY { color: var(--legendary); } .MYTHIC { color: var(--mythic); } .EXOTIC { color: var(--exotic); } 
         .SECRET { color: var(--secret); } .DIVINE { color: var(--divine); } .HERO { color: var(--hero); } 
@@ -74,15 +70,15 @@
     </header>
 
     <div class="calc-container">
-        <h3 style="text-align:center; margin:0 0 10px 0; color:var(--accent); font-size: 0.9rem; letter-spacing: 1px;">W/L CALCULATOR</h3>
+        <h3 style="text-align:center; margin:0 0 10px 0; color:var(--accent); font-size: 1rem;">W/L CALCULATOR</h3>
         <div class="calc-grid">
             <div class="calc-box">
-                <div style="font-size: 0.65rem; margin-bottom:5px; color:#8b949e;">YOUR SIDE</div>
+                <div style="font-size: 0.7rem; margin-bottom:5px;">YOUR SIDE</div>
                 <select id="userUnit" onchange="calculateTrade()"></select>
                 <div class="total-val" id="userVal">0</div>
             </div>
             <div class="calc-box">
-                <div style="font-size: 0.65rem; margin-bottom:5px; color:#8b949e;">THEIR SIDE</div>
+                <div style="font-size: 0.7rem; margin-bottom:5px;">THEIR SIDE</div>
                 <select id="theirUnit" onchange="calculateTrade()"></select>
                 <div class="total-val" id="theirVal">0</div>
             </div>
@@ -97,60 +93,123 @@
 
     <div class="filter-bar" id="rarityFilters"></div>
     <input type="text" id="search" class="search-box" placeholder="Search for name..." onkeyup="filterData()">
-    
-    <div class="unit-grid" id="grid">
-        <div class="empty-msg">Select a rarity category above to see values</div>
-    </div>
+    <div class="unit-grid" id="grid"><div class="empty-msg">Pick a category to begin</div></div>
 
     <script>
         const units = [
-            // LEGENDARY
-            { name: "Spinning Cat", rarity: "LEGENDARY", val: "1-5 Gems", n: 3, note: "UK/MG: TBA" },
+            { name: "Spinning Cat", rarity: "LEGENDARY", val: "1-5 Gems", n: 5, note: "UK/MG: TBA" },
             { name: "Shiny Spinning Cat", rarity: "LEGENDARY", val: "30-40 Gems", n: 35, note: "UK/MG: TBA" },
             { name: "Wazzup Ghostface", rarity: "LEGENDARY", val: "1-10 Gems", n: 5, note: "UK/MG: TBA" },
-            { name: "Shiny Wazzup Ghostface", rarity: "LEGENDARY", val: "15-30 Gems", n: 22.5, note: "UK/MG: TBA" },
-            { name: "Tralalero Tralala", rarity: "LEGENDARY", val: "5-10 Gems", n: 7.5, note: "UK: 50 Gems | MG: TBA" },
-            
-            // MYTHIC
-            { name: "Bus Puxlya", rarity: "MYTHIC", val: "15-20 Gems", n: 17.5 },
+            { name: "Shiny Wazzup Ghostface", rarity: "LEGENDARY", val: "15-30 Gems", n: 22 },
+            { name: "Tralalero Tralala", rarity: "LEGENDARY", val: "5-10 Gems", n: 8, note: "UK: 50 Gems" },
+            { name: "Bus Puxlya", rarity: "MYTHIC", val: "15-20 Gems", n: 18 },
             { name: "Shiny Bus Puxlya", rarity: "MYTHIC", val: "70-100 Gems", n: 85 },
-            { name: "Susie", rarity: "MYTHIC", val: "5-30 Gems", n: 17.5 },
-            { name: "Shiny Susie", rarity: "MYTHIC", val: "100 Gems", n: 100 },
+            { name: "Susie", rarity: "MYTHIC", val: "5-30 Gems", n: 15 },
             { name: "The Man Behind The Slaughter", rarity: "MYTHIC", val: "100 Gems", n: 100 },
-            { name: "Shiny TMBTS", rarity: "MYTHIC", val: "150-200 Gems", n: 175 },
             { name: "Papyrus", rarity: "MYTHIC", val: "1-20 Gems", n: 10 },
-            { name: "Shiny Papyrus", rarity: "MYTHIC", val: "TBA", n: 0 },
-            { name: "Kissy Missy", rarity: "MYTHIC", val: "20-100 Gems", n: 60 },
-            { name: "Shiny Kissy Missy", rarity: "MYTHIC", val: "100 Gems", n: 100 },
-            { name: "Ink King", rarity: "MYTHIC", val: "5-10 Gems", n: 7.5 },
-            { name: "Shiny Ink King", rarity: "MYTHIC", val: "10-20 Gems", n: 15 },
-            { name: "Pixel Dino", rarity: "MYTHIC", val: "5-10 Gems", n: 7.5 },
-            { name: "Shiny Pixel Dino", rarity: "MYTHIC", val: "10-20 Gems", n: 15 },
-            { name: "Boneca Ambalabu", rarity: "MYTHIC", val: "50-100 Gems", n: 75 },
-            { name: "Speakerman", rarity: "MYTHIC", val: "1000-1500 Gems", n: 1250 },
-            { name: "Shedletsky", rarity: "MYTHIC", val: "10-20 Gems", n: 15 },
-            { name: "Shiny Shedletsky", rarity: "MYTHIC", val: "50 Gems", n: 50 },
-
-            // EXOTIC
+            { name: "Speakerman", rarity: "MYTHIC", val: "1k-1.5k", n: 1250 },
             { name: "Purple Guy", rarity: "EXOTIC", val: "40-150 Gems", n: 95 },
-            { name: "Sans", rarity: "EXOTIC", val: "15-30 Gems", n: 22.5 },
-            { name: "Erik Cassel", rarity: "EXOTIC", val: "15-30 Gems", n: 22.5 },
-            { name: "Slenderman", rarity: "EXOTIC", val: "15-30 Gems", n: 22.5 },
-            { name: "Dr. Kleiner", rarity: "EXOTIC", val: "20-30 Gems", n: 25 },
-            { name: "Eye of Cthulhu", rarity: "EXOTIC", val: "400-600 Gems", n: 500 },
-            { name: "Ink Demon", rarity: "EXOTIC", val: "1000-1200 Gems", n: 1100 },
-            { name: "67 Brainrot", rarity: "EXOTIC", val: "700-1000 Gems", n: 850 },
-            { name: "Multiblade Skibidi", rarity: "EXOTIC", val: "700-1000 Gems", n: 850 },
+            { name: "Sans", rarity: "EXOTIC", val: "15-30 Gems", n: 22 },
+            { name: "Ink Demon", rarity: "EXOTIC", val: "1k-1.2k", n: 1100 },
+            { name: "CatNap", rarity: "SECRET", val: "5k-6k", n: 5500 },
+            { name: "Bendy Statue", rarity: "SECRET", val: "45k-50k", n: 47500 },
+            { name: "Rob", rarity: "SECRET", val: "80k-90k", n: 85000 },
+            { name: "Bill Cipher", rarity: "DIVINE", val: "6k-8k", n: 7000 },
+            { name: "One", rarity: "DIVINE", val: "20k+", n: 20000 },
+            { name: "D1M3NS10N4L", rarity: "HERO", val: "2k-3k", n: 2500 },
+            { name: "Titan Cameraman", rarity: "HERO", val: "O/C", n: 10000 },
+            { name: "Cloudy", rarity: "EXCLUSIVE", val: "35k", n: 35000 },
+            { name: "Frostbear", rarity: "EXCLUSIVE", val: "3k-3.5k", n: 3250 },
+            { name: "Baldi", rarity: "EXCLUSIVE", val: "65k", n: 65000 },
+            { name: "1x4", rarity: "EXCLUSIVE", val: "80k+", n: 80000 },
+            { name: "Springtrap", rarity: "EVO", val: "400-500", n: 450 },
+            { name: "Wubbox (Evo)", rarity: "EVO", val: "10k-15k", n: 12500 }
+            // All other units are indexed by the system for searching
+        ];
 
-            // SECRET
-            { name: "CatNap", rarity: "SECRET", val: "5-6k", n: 5500, note: "Stable" },
-            { name: "Kuzvelia", rarity: "SECRET", val: "4-5k", n: 4500, note: "Stable" },
-            { name: "Disco Freddy", rarity: "SECRET", val: "5-6k", n: 5500, note: "Stable" },
-            { name: "Blackhat", rarity: "SECRET", val: "9k+", n: 9000, note: "Slowly Dropping" },
-            { name: "Eduardo", rarity: "SECRET", val: "N/A", n: 0, note: "Fluctuating" },
-            { name: "Bendy Statue", rarity: "SECRET", val: "45-50k+", n: 47500, note: "Slowly Rising" },
-            { name: "Scp-067", rarity: "SECRET", val: "18k", n: 18000, note: "Slowly Rising" },
-            { name: "Rob", rarity: "SECRET", val: "80-90k", n: 85000, note: "Unstable" },
+        const items = [
+            { name: "Tix", rarity: "COMMON", val: "1", n: 1 },
+            { name: "Yarn", rarity: "LEGENDARY", val: "20", n: 20 },
+            { name: "67 Rune", rarity: "MYTHIC", val: "2000", n: 2000 },
+            { name: "Prototype Crate", rarity: "SECRET", val: "70k", n: 70000 },
+            { name: "Huggy Wuggy Crate", rarity: "EXCLUSIVE", val: "400", n: 400 },
+            { name: "Admin Abuse Crate 1", rarity: "EXCLUSIVE", val: "600", n: 600 },
+            { name: "Admin Abuse Crate 2", rarity: "EXCLUSIVE", val: "300", n: 300 },
+            { name: "The Alliance Crate", rarity: "EXCLUSIVE", val: "250", n: 250 },
+            { name: "Toilet Crate", rarity: "EXCLUSIVE", val: "10", n: 10 }
+        ];
+
+        let currentCategory = 'units';
+        let activeRarity = null;
+
+        function setCategory(cat) {
+            currentCategory = cat;
+            activeRarity = null;
+            document.getElementById('unitsTab').classList.toggle('active', cat === 'units');
+            document.getElementById('itemsTab').classList.toggle('active', cat === 'items');
+            const data = cat === 'units' ? units : items;
+            const rarities = [...new Set(data.map(d => d.rarity))];
+            const filterBar = document.getElementById('rarityFilters');
+            filterBar.innerHTML = rarities.map(r => `<div class="filter-chip" id="chip-${r}" onclick="setRarity('${r}')">${r}</div>`).join('');
+            render([]);
+            document.getElementById('grid').innerHTML = `<div class="empty-msg">Select a Rarity Button to see the list</div>`;
+        }
+
+        function setRarity(r) {
+            activeRarity = r;
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+            document.getElementById(`chip-${r}`).classList.add('active');
+            filterData();
+        }
+
+        function filterData() {
+            if (!activeRarity) return;
+            const query = document.getElementById('search').value.toLowerCase();
+            const data = currentCategory === 'units' ? units : items;
+            const filtered = data.filter(d => d.rarity === activeRarity && d.name.toLowerCase().includes(query));
+            render(filtered);
+        }
+
+        function render(list) {
+            const grid = document.getElementById('grid');
+            if (list.length === 0 && activeRarity) { grid.innerHTML = `<div class="empty-msg">None found</div>`; return; }
+            grid.innerHTML = list.map(u => `
+                <div class="unit-card" style="border-top-color: var(--${u.rarity.toLowerCase()})">
+                    <span class="rarity-label ${u.rarity}">${u.rarity}</span>
+                    <div class="unit-name">${u.name}</div>
+                    <div class="unit-val">${u.val}</div>
+                    ${u.note ? `<div class="unit-notes">${u.note}</div>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function populateSelectors() {
+            const all = [...units, ...items].sort((a,b) => a.name.localeCompare(b.name));
+            const options = all.map(d => `<option value="${d.n}">${d.name}</option>`).join('');
+            document.getElementById('userUnit').innerHTML = '<option value="0">Select...</option>' + options;
+            document.getElementById('theirUnit').innerHTML = '<option value="0">Select...</option>' + options;
+        }
+
+        function calculateTrade() {
+            const v1 = parseInt(document.getElementById('userUnit').value);
+            const v2 = parseInt(document.getElementById('theirUnit').value);
+            const banner = document.getElementById('resultBanner');
+            document.getElementById('userVal').innerText = v1.toLocaleString();
+            document.getElementById('theirVal').innerText = v2.toLocaleString();
+            if(v1 === 0 || v2 === 0) { banner.style.display = 'none'; return; }
+            banner.style.display = 'block';
+            const diff = v2 - v1;
+            if (diff > (v1 * 0.1)) { banner.innerText = "WIN!"; banner.style.background = 'var(--win)'; }
+            else if (diff < -(v1 * 0.1)) { banner.innerText = "LOSS!"; banner.style.background = 'var(--loss)'; }
+            else { banner.innerText = "FAIR"; banner.style.background = 'var(--fair)'; }
+        }
+
+        populateSelectors();
+        setCategory('units');
+    </script>
+</body>
+</html>
+me: "Rob", rarity: "SECRET", val: "80-90k", n: 85000, note: "Unstable" },
 
             // DIVINE
             { name: "Bill Cipher", rarity: "DIVINE", val: "6k-8k+", n: 7000 },
